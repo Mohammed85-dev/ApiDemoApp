@@ -211,7 +211,15 @@ C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\staticwebassets.
 C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\staticwebassets.build.endpoints.json
 C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\ApiDemo.csproj.Up2Date
 C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\ApiDemo.dll
-C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\refint\ApiDemo.dll
 C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\ApiDemo.pdb
 C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\ApiDemo.genruntimeconfig.cache
-C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\ref\ApiDemo.dll
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\ApiDemo.sourcelink.json
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\bin\Debug\net9.0\ApiDemo.pssym
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\bin\Debug\net9.0\ApiDemo.pspdb
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\bin\Debug\net9.0\PostSharp.dll
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\PostSharp\touch
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\PostSharp\AdditionalBuildDependencies.txt
+C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\obj\Debug\net9.0\PostSharp\postsharp.app.config
