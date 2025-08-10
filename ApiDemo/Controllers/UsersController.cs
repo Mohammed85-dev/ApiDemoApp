@@ -32,6 +32,7 @@ namespace ApiDemo.Controllers {
         [HttpPost]
         [Route("Auth/SignUp")]
         public ActionResult<TokenRequestDataModel> Post([FromBody] SignUpModel signUp) {
+            _logger.Log(LogLevel.Information, "User created");
             return Ok(_usersDataManger.SignUpUser(signUp));
         }
 
