@@ -19,12 +19,46 @@ namespace ApiDemo.DataBase.Classes {
 
             _users.Add(userData.Uuid, userData);
 
-            TokensModelData tokensData = generateTokenData(userData.Uuid);
-
             return new TokenRequestDataModel() {
                 Succeeded = true,
                 Message = "Created new user",
-                TokensModelData = tokensData,
+                TokensModelData = generateTokenData(userData.Uuid),
+            };
+        }
+
+        public TokenRequestDataModel LoginUser(LoginModel loginModel) {
+            Guid uuid = Guid.Empty;
+            foreach (var keyValuePair in _users) {
+                if (loginModel.UsingUsername) {
+                    if (keyValuePair.Value.Username == loginModel.Username) {
+                        uuid = keyValuePair.Key;
+                    }
+                }
+                else {
+                    if (keyValuePair.Value.Email == loginModel.Email) {
+                        uuid = keyValuePair.Key;
+                    }
+                }
+            }
+
+            if (uuid == Guid.Empty)
+                return new TokenRequestDataModel() {
+                    Succeeded = false,
+                    Message = "Failed to find user",
+                    TokensModelData = null,
+                };
+
+            if (loginModel.Password != _users[uuid].Password)
+                return new TokenRequestDataModel() {
+                    Succeeded = false,
+                    Message = "Incorrect password",
+                    TokensModelData = null,
+                };
+
+            return new TokenRequestDataModel() {
+                Succeeded = true,
+                Message = "Login in successful. Generated new token",
+                TokensModelData = generateTokenData(uuid),
             };
         }
 
@@ -56,7 +90,7 @@ namespace ApiDemo.DataBase.Classes {
                     Succeeded = false,
                     Message = "Invalid access token or refresh token for UUID",
                 };
-        
+
         private TokensModelData generateTokenData(Guid uuid) {
             TokensModelData tokensData = new() {
                 AccessToken = _tokenGenerator.GenerateToken(),

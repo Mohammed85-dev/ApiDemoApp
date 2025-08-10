@@ -19,53 +19,13 @@ namespace ApiDemo.Controllers {
         }
 
         // GET api/Users/{uuid}
-        [HttpGet("{id:guid}")]
-        public PublicUserDataModel Get(Guid id) {
-            return _usersDataManger.GetPublicUserData(id);
-        }
-
-        // POST api/Users/Auth/SignUp
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="signUp"></param>
-        [HttpPost]
-        [Route("Auth/SignUp")]
-        public ActionResult<TokenRequestDataModel> Post([FromBody] SignUpModel signUp) {
-            _logger.Log(LogLevel.Information, "User created");
-            return Ok(_usersDataManger.SignUpUser(signUp));
-        }
-
-        //Post api/Users/Auth/GetTokens
-        [HttpPost]
-        [Route("Auth/GetTokens")]
-        public ActionResult<TokenRequestDataModel> Post([FromBody] GetTokensModel getTokens) {
-            TokenRequestDataModel tokenRequestData =  _usersDataManger.getTokens(getTokens);
-            if(!tokenRequestData.Succeeded)
-                return BadRequest(tokenRequestData);
-            return Ok(tokenRequestData.TokensModelData);
-        }
-
-        //Post api/Users/Auth/VerifyAccessToken
-        [HttpPost]
-        [Route("Auth/VerifyAccessToken")]
-        public IActionResult Post([FromBody] VerifyAccessTokenModel verifyAccessToken) {
-            if (_usersDataManger.VerifyAccessToken(verifyAccessToken))
-                return Ok();
-            return BadRequest();
-        }
-
-        //Post api/Users/Auth/VerifyRefreshToken
-        [HttpPost]
-        [Route("Auth/VerifyRefreshToken")]
-        public IActionResult Post([FromBody] VerifyRefreshTokenModel verifyRefreshToken) {
-            if (_usersDataManger.VerifyRefreshToken(verifyRefreshToken))
-                return Ok();
-            return BadRequest();
+        [HttpGet("{uuid:guid}")]
+        public PublicUserDataModel Get(Guid uuid) {
+            return _usersDataManger.GetPublicUserData(uuid);
         }
 
         // DELETE api/Users/5
-        [HttpDelete("{id:guid}")]
-        public void Delete(Guid id) { }
+        [HttpDelete("{uuid:guid}")]
+        public void Delete(Guid uuid) { }
     }
 }

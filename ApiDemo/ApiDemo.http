@@ -1,14 +1,25 @@
 @ApiDemo_HostAddress = https://localhost:7222
 
 ### Test SignUp endpoint
-POST {{ApiDemo_HostAddress}}/api/Users/Auth/SignUp
+POST {{ApiDemo_HostAddress}}/api/Auth/SignUp
 Accept: text/plain
 Content-Type: application/json
 
 {
-  "username": "asdasd",
-  "email": "mohammed@hot.com",
-  "password": "1asd45f15asd1f51asd6f1"
+  "username": "mohammed85",
+  "email": "mohammed@hotmail.com",
+  "password": "987654321"
 }
 
-###
+### Test Login endpoint
+
+POST {{ApiDemo_HostAddress}}/api/Auth/Login
+Accept: text/plain
+Content-Type: application/json
+
+{ 
+  "usingUsername": true,
+  "username": "mohammed85",
+  "email": "mohammed@hotmail.com",
+  "password": "987654321"
+}
