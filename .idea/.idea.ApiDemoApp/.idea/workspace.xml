@@ -9,11 +9,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f368763e-b501-4095-9731-d278e755f48e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ApiDemo/Models/GetTokensModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Models/Token/GetTokensModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ApiDemo/Models/SignUpModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Models/SignUp&amp;Login/SignUpModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ApiDemo/Models/TokenRequestDataModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Models/Token/TokenRequestDataModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ApiDemo/Models/VerifyAccessTokenModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Models/Token/VerifyAccessTokenModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ApiDemo/Models/VerifyRefreshTokenModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Models/Token/VerifyRefreshTokenModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ApiDemo/DemoWebsite/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ApiDemoApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ApiDemoApp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/ApiDemo.http" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/ApiDemo.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/DataBase/Classes/UsersDataManger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/DataBase/Classes/UsersDataManger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.pspdb" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.pspdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.pssym" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/bin/Debug/net9.0/ApiDemo.pssym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/ApiDemo.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/Before-PostSharp/ApiDemo.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/Before-PostSharp/ApiDemo.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/Before-PostSharp/ApiDemo.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/Before-PostSharp/ApiDemo.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/Before-PostSharp/ApiDemo.pspdb" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/Before-PostSharp/ApiDemo.pspdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/rjsmrazor.dswa.cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/rjsmrazor.dswa.cache.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemo/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemo/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemoApp.sln" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemoApp.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiDemoApp.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/ApiDemoApp.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +45,14 @@
   </component>
   <component name="DpaMonitoringSettings">
     <option name="firstShow" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="HTTP Request" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,23 +70,25 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/post-requests.http" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07656d296b3947129657503ba1d098651de910/3c/6ba080a2/ControllerActionInvoker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b241c378a97f4447a2e6baf64e656013e8e910/4c/6002963d/MissingFieldException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b241c378a97f4447a2e6baf64e656013e8e910/db/dc6fc1c9/Guid.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b241c378a97f4447a2e6baf64e656013e8e910/e2/09fd5ce3/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/52f3815551fa6e6d408ea7dbf6748f7efe35caea15eb53ee27ee1bb406d62c8/JsonSerializerInternalReader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/595e4f2361fd31cb66c7e9303f46cf8f2fe77d96eea9d0e42c17cae783aa74/ServiceCollection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/625ed9b557f1533cc7c4f974558836da4719c482e3070253ec856fcb6f234f9/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/74b348646f3f23e32206c63a169ead92f0239e72765dbd2b3a0293474b94b/HttpPutAttribute.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/85d3bf35616d6fe2c96cfd8c17357b8534c2f9422d92fe6341abe6aadbe91d3/DiagnosticListener.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bd1d5c50194fea68ff3559c160230b0ab50f5acf4ce3061bffd6d62958e2182/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/dee9fd754b909095948823227825a711db338e2e4015658a627cddbf6091a1/JsonElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ApiDemo/Controllers/UsersController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ApiDemo/Models/SignUpModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ApiDemo/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ApiDemo/obj/Debug/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="HttpClientSelectedEnvironments">
     <file url="file://$USER_HOME$/AppData/Local/Temp/whats-new-dir/whats-new.http" environment="test" />
+    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/post-requests.http" environment="test" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -72,7 +105,10 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;.NET Launch Settings Profile.ApiDemo: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.ApiDemo: https.executor&quot;: &quot;Debug&quot;,
+    &quot;.NET Launch Settings Profile.ApiDemo: https.executor&quot;: &quot;Run&quot;,
+    &quot;Attach to Process.28900:ApiDemo.executor&quot;: &quot;Debug&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;HTTP Request.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -83,45 +119,14 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;swagger&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.ApiDemo: https">
-    <configuration name="ApiDemo: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ApiDemo/ApiDemo.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="http" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
+  <component name="RunManager">
+    <configuration name="SignUp" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" path="$PROJECT_DIR$/ApiDemo/ApiDemo.http" executionIdentifier="Test SignUp endpoint">
+      <method v="2" />
     </configuration>
-    <configuration name="ApiDemo: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ApiDemo/ApiDemo.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="https" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue=".NET Launch Settings Profile.ApiDemo: http" />
-      <item itemvalue=".NET Launch Settings Profile.ApiDemo: https" />
-    </list>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -135,6 +140,9 @@
       <workItem from="1754782812392" duration="532000" />
       <workItem from="1754783369437" duration="612000" />
       <workItem from="1754785029240" duration="19010000" />
+      <workItem from="1754804112136" duration="225000" />
+      <workItem from="1754844180404" duration="4596000" />
+      <workItem from="1754848831493" duration="122000" />
     </task>
     <task id="LOCAL-00001" summary="Start">
       <option name="closed" value="true" />
@@ -199,6 +207,32 @@
           </properties>
           <option name="timeStamp" value="15" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ApiDemo/Controllers/UsersController.cs</url>
+          <line>34</line>
+          <properties documentPath="C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\Controllers\UsersController.cs" containingFunctionPresentation="Method 'Post'">
+            <startOffsets>
+              <option value="1146" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1196" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ApiDemo/Controllers/UsersController.cs</url>
+          <line>35</line>
+          <properties documentPath="C:\Users\user\RiderProjects\ApiDemoApp\ApiDemo\Controllers\UsersController.cs" containingFunctionPresentation="Method 'Post'">
+            <startOffsets>
+              <option value="1209" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1256" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

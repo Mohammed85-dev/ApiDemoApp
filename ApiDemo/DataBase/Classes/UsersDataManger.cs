@@ -56,8 +56,7 @@ namespace ApiDemo.DataBase.Classes {
                     Succeeded = false,
                     Message = "Invalid access token or refresh token for UUID",
                 };
-
-
+        
         private TokensModelData generateTokenData(Guid uuid) {
             TokensModelData tokensData = new() {
                 AccessToken = _tokenGenerator.GenerateToken(),

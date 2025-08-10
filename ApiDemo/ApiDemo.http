@@ -1,6 +1,14 @@
-@ApiDemo_HostAddress = http://localhost:5226
+@ApiDemo_HostAddress = https://localhost:7222
 
-GET {{ApiDemo_HostAddress}}/weatherforecast/
-Accept: application/json
+### Test SignUp endpoint
+POST {{ApiDemo_HostAddress}}/api/Users/Auth/SignUp
+Accept: text/plain
+Content-Type: application/json
+
+{
+  "username": "asdasd",
+  "email": "mohammed@hot.com",
+  "password": "1asd45f15asd1f51asd6f1"
+}
 
 ###

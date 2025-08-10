@@ -1,0 +1,9 @@
+{
+  "succeeded": true,
+  "message": "Created new user",
+  "tokensModelData": {
+    "uuid": "dcd5823d-a71c-446d-b88c-070728bd6d70",
+    "token": "ja7kkZTZMDmHItM9905mjGW3dWjpWhJcnZvYgLCE4wY",
+    "refreshToken": "A_oLD-ZTG-vzUFEJ_IqSkaWqnyVuL4GZAdaZLRiD8fM"
+  }
+}
