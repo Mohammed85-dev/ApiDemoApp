@@ -101,7 +101,7 @@ namespace ApiDemo.DataBase.Classes {
                 ? (tryGetUser(loginModel.Username, out UserData dataE))
                     ? dataE
                     : null
-                : tryGetUser(loginModel.Email, out UserData dataU)
+                : tryGetUser((Email)loginModel.Email, out UserData dataU)
                     ? dataU
                     : null;
 
