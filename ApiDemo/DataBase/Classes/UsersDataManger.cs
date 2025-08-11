@@ -1,58 +1,101 @@
 using ApiDemo.Core.Tokens;
-using ApiDemo.DataBase.Classes.Interfaces;
+using ApiDemo.DataBase.Interfaces;
 using ApiDemo.TypesData;
 using Microsoft.AspNetCore.Mvc;
 using ApiDemo.Models;
+using ApiDemo.Models.Auth;
 
 namespace ApiDemo.DataBase.Classes {
-    public class UsersDataManger(ITokenGenerator _tokenGenerator) : IUsersDataManger {
-        private readonly Dictionary<Guid, UserData> _users = new();
+    public class UsersDataManger(ITokenGenerator _tokenGenerator) : IUsersDataManger, IAuthDataManger {
+        private readonly LinkedList<UserData> _users = new();
 
-        public int GetCount() => _users.Count;
-        public bool PasswordRest(PasswordRestModel passwordRest) {
+        private bool tryGetUser(Guid uuid, out UserData userData) {
+            var node = _users.First;
+            while (node != null) {
+                if (node.Value!.Uuid == uuid) {
+                    userData = node.Value;
+                    return true;
+                }
+                node = node.Next;
+            }
+            userData = null!;
             return false;
         }
 
+        private bool tryGetUser(string username, out UserData userData) {
+            var node = _users.First;
+            while (node != null) {
+                if (node.Value!.Username == username) {
+                    userData = node.Value;
+                    return true;
+                }
+                node = node.Next;
+            }
+            userData = null!;
+            return false;
+        }
+
+        private bool tryGetUser(Email email, out UserData userData) {
+            var node = _users.First;
+            while (node != null) {
+                if (node.Value!.Email == email) {
+                    userData = node.Value;
+                    return true;
+                }
+                node = node.Next;
+            }
+            userData = null!;
+            return false;
+        }
+
+        public int GetCount() => _users.Count;
+
+        public bool PasswordRest(PasswordRestModel passwordRest) {
+            tryGetUser(passwordRest.Uuid, out UserData? userData);
+            if (passwordRest.OldPassword != userData.Password)
+                return false;
+            userData.Password = passwordRest.NewPassword;
+            return true;
+        }
+
+        public bool Authorization(string accessToken) {
+            throw new NotImplementedException();
+        }
+
         public TokenRequestDataModel SignUpUser(SignUpModel signUpData) {
-            UserData userData = new UserData() {
+            UserData userData = new() {
                 Uuid = Guid.NewGuid(),
                 Username = signUpData.Username,
                 Email = signUpData.Email,
                 Password = signUpData.Password,
             };
 
-            _users.Add(userData.Uuid, userData);
+            _users.AddLast(userData);
 
             return new TokenRequestDataModel() {
                 Succeeded = true,
                 Message = "Created new user",
-                TokensModelData = generateTokenData(userData.Uuid),
+                TokensModelData = generateTokenData(userData),
             };
         }
 
         public TokenRequestDataModel LoginUser(LoginModel loginModel) {
-            Guid uuid = Guid.Empty;
-            foreach (var keyValuePair in _users) {
-                if (loginModel.UsingUsername) {
-                    if (keyValuePair.Value.Username == loginModel.Username) {
-                        uuid = keyValuePair.Key;
-                    }
-                }
-                else {
-                    if (keyValuePair.Value.Email == loginModel.Email) {
-                        uuid = keyValuePair.Key;
-                    }
-                }
-            }
+            UserData? userData = (loginModel.UsingUsername)
+                ? (tryGetUser(loginModel.Username, out UserData dataE))
+                    ? dataE
+                    : null
+                : tryGetUser(loginModel.Email, out UserData dataU)
+                    ? dataU
+                    : null;
 
-            if (uuid == Guid.Empty)
+            if (userData == null)
                 return new TokenRequestDataModel() {
                     Succeeded = false,
                     Message = "Failed to find user",
                     TokensModelData = null,
                 };
 
-            if (loginModel.Password != _users[uuid].Password)
+            if (loginModel.Password != userData.Password)
                 return new TokenRequestDataModel() {
                     Succeeded = false,
                     Message = "Incorrect password",
@@ -62,47 +105,73 @@ namespace ApiDemo.DataBase.Classes {
             return new TokenRequestDataModel() {
                 Succeeded = true,
                 Message = "Login in successful. Generated new token",
-                TokensModelData = generateTokenData(uuid),
+                TokensModelData = generateTokenData(userData),
             };
         }
 
-        public PublicUserDataModel GetPublicUserData(Guid uuid) {
+        public ActionResult<PublicUserDataModel> GetPublicUserData(Guid uuid) {
+            if (!tryGetUser(uuid, out UserData userData)) {
+                return new BadRequestResult();
+            }
             return new PublicUserDataModel() {
-                Username = _users[uuid].Username,
-                Email = _users[uuid].Email,
+                Username = userData.Username,
+                Email = userData.Email,
             };
         }
 
-        private bool verifyAccessToken(Guid uuid, string token) => _users[uuid].HashedUserAccessTokens.Contains(_tokenGenerator.HashToken(token));
+        private bool verifyAccessToken(UserData userData, string token) => userData.HashedUserAccessTokens.Contains(_tokenGenerator.HashToken(token));
 
-        public bool VerifyAccessToken(VerifyAccessTokenModel accessToken) => verifyAccessToken(accessToken.Uuid, accessToken.Token);
+        public bool VerifyAccessToken(VerifyAccessTokenModel accessToken, out string response) {
+            if (!tryGetUser(accessToken.Uuid, out UserData userData)) {
+                response = "Failed to find user";
+                return false;
+            }
+            response = "Valid AccessToken";
+            return verifyAccessToken(userData, accessToken.Token);
+        }
 
-        private bool verifyRefreshToken(Guid uuid, string refreshToken) =>
-            _users[uuid].HashedRefreshTokens.Contains(_tokenGenerator.HashToken(refreshToken));
+        private bool verifyRefreshToken(UserData userData, string refreshToken) {
+            return userData.HashedRefreshTokens.Contains(_tokenGenerator.HashToken(refreshToken));
+        }
 
-        public bool VerifyRefreshToken(VerifyRefreshTokenModel refreshToken) => verifyRefreshToken(refreshToken.Uuid, refreshToken.RefreshToken);
+        public bool VerifyRefreshToken(VerifyRefreshTokenModel refreshToken, out string response) {
+            if (!tryGetUser(refreshToken.Uuid, out UserData userData)) {
+                response = "Invalid uuid";
+                return false;
+            }
+            response = "Valid RefreshToken";
+            return verifyRefreshToken(userData, refreshToken.RefreshToken);
+        }
 
-        public TokenRequestDataModel getTokens(GetTokensModel getTokensData) =>
-            (verifyAccessToken(getTokensData.UUID, getTokensData.AccessToken) &&
-                verifyRefreshToken(getTokensData.UUID, getTokensData.RefreshToken))
+        public TokenRequestDataModel getTokens(GetTokensModel getTokensData) {
+            if (!tryGetUser(getTokensData.UUID, out var userData)) {
+                return new TokenRequestDataModel() {
+                    Succeeded = false,
+                    Message = "Failed to find user",
+                };
+            }
+                
+            return (verifyAccessToken(userData, getTokensData.AccessToken) &&
+                verifyRefreshToken(userData, getTokensData.RefreshToken))
                 ? new TokenRequestDataModel() {
                     Succeeded = true,
                     Message = "Generated new Tokens",
-                    TokensModelData = generateTokenData(getTokensData.UUID),
+                    TokensModelData = generateTokenData(userData),
                 }
                 : new TokenRequestDataModel {
                     Succeeded = false,
                     Message = "Invalid access token or refresh token for UUID",
                 };
+        }
 
-        private TokensModelData generateTokenData(Guid uuid) {
+        private TokensModelData generateTokenData(UserData userData) {
             TokensModelData tokensData = new() {
                 AccessToken = _tokenGenerator.GenerateToken(),
                 RefreshToken = _tokenGenerator.GenerateToken(),
-                UUID = uuid,
+                UUID = userData.Uuid,
             };
-            _users[uuid].HashedUserAccessTokens.Add(_tokenGenerator.HashToken(tokensData.AccessToken));
-            _users[uuid].HashedRefreshTokens.Add(_tokenGenerator.HashToken(tokensData.RefreshToken));
+            userData.HashedUserAccessTokens.Add(_tokenGenerator.HashToken(tokensData.AccessToken));
+            userData.HashedRefreshTokens.Add(_tokenGenerator.HashToken(tokensData.RefreshToken));
             return tokensData;
         }
     }

@@ -5,7 +5,8 @@
 
 using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Classes;
-using ApiDemo.DataBase.Classes.Interfaces;
+using ApiDemo.DataBase.Interfaces;
+using ApiDemo.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,11 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen(c => {
+    c.OperationFilter<RequiredHeadersFromAttributesFilter>();
+    c.DocumentFilter<RequiredHeadersFromAttributesFilter>();
+});
 
 ITokenGenerator tokenGenerator = new TokenGenerator();
 builder.Services.AddSingleton<ITokenGenerator>(tokenGenerator);
 builder.Services.AddSingleton<IUsersDataManger>(new UsersDataManger(tokenGenerator));
+builder.Services.AddSingleton<IAuthDataManger>(new UsersDataManger(tokenGenerator));
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowLocalhost",
@@ -37,9 +43,10 @@ app.UseCors("AllowLocalhost");
 
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment()) {
-    app.MapOpenApi();
+// app.MapOpenApi();
+app.UseSwagger();
 
-    app.UseSwaggerUI(options => { options.SwaggerEndpoint("/openapi/v1.json", "v1"); });
+app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"); });
 // }
 
 app.MapGet("/", () => "Hello World!");

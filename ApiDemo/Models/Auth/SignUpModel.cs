@@ -7,15 +7,16 @@ namespace ApiDemo.Models {
         [JsonPropertyName("username")]
         [Required]
         [MinLength(3)]
-        public required string Username { get; set; }
+        public required string Username { get; init; }
         [JsonPropertyName("email")]
         [Required]
         [EmailAddress]
-        public required string Email { get; set; }
+        public required string Email { get; init; }
         [JsonPropertyName("password")]
         [Required]
-        [MinLength(8)]
+        [Length(8, 32)]
+        [DeniedValues("/")]
         [IsEncrypted]
-        public required string Password { get; set; }
+        public required string Password { get; init; }
     }
 }

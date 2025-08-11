@@ -1,4 +1,4 @@
-using ApiDemo.DataBase.Classes.Interfaces;
+using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,8 +24,8 @@ namespace ApiDemo.Controllers {
             return Ok(_usersDataManger.GetPublicUserData(uuid));
         }
 
-        // DELETE api/Users/5
-        [HttpDelete("{uuid:guid}")]
-        public void Delete(Guid uuid) { }
+        // // DELETE api/Users/5
+        // [HttpDelete("{uuid:guid}")]
+        // public void Delete(Guid uuid) { }
     }
 }
