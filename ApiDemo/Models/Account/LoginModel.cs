@@ -13,7 +13,8 @@ namespace ApiDemo.Models.Account {
         public string Email { get; init; } = string.Empty;
         [JsonPropertyName("password")]
         [Required]
-        [Length(8, 32)]
+        [MinLength(8)]
+        [MaxLength(64)]
         [DeniedValues("/")]
         [IsEncrypted]
         public required string Password { get; init; }

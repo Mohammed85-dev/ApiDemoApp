@@ -27,6 +27,13 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }*/
     
     public TokenRequestResponseDataModel SignUpUser(SignUpModel signUpData) {
+        if (usersDB.tryGetUser(signUpData.Username, out var _))
+            return new TokenRequestResponseDataModel() {
+                Succeeded = false,
+                Message = "A user with that username already exists",
+                TokensModelData = null,
+            };
+        
         AccountDataModel accountDataModel = new() {
             UUID = Guid.NewGuid(),
             UserUsername = signUpData.Username,
