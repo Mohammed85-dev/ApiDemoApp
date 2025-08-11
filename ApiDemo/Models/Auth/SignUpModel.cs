@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
 
@@ -14,8 +15,8 @@ namespace ApiDemo.Models {
         public required string Email { get; init; }
         [JsonPropertyName("password")]
         [Required]
-        [Length(8, 32)]
-        [DeniedValues("/")]
+        [MinLength(8)]
+        [MaxLength(64)]
         [IsEncrypted]
         public required string Password { get; init; }
     }

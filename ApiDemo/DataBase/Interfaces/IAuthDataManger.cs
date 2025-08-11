@@ -4,8 +4,12 @@ using ApiDemo.Models.Auth;
 namespace ApiDemo.DataBase.Interfaces;
 
 public interface IAuthDataManger {
-    public bool PasswordRest(PasswordRestModel passwordRest);
-    public bool Authorization(string accessToken);
+    public enum Permission {
+        userAdmin
+    }
+    
+    public bool PasswordRest(PasswordRestModel passwordRest, out string response);
+    public bool Authorization(string accessToken, Permission permission, out string response);
     public TokenRequestDataModel SignUpUser(SignUpModel signUpModel);
     public TokenRequestDataModel LoginUser(LoginModel loginModel);
     

@@ -7,20 +7,22 @@ using ApiDemo.Models.Auth;
 namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(ILogger<UsersController> _logger, IAuthDataManger _usersDataManger) : ControllerBase {
+    public class AuthController(ILogger<UsersController> _logger, IAuthDataManger _authDataManger) : ControllerBase {
         [HttpPut]
         [Route("PasswordRest")]
-        public IActionResult Put([FromBody] PasswordRestModel passwordRest) {
-            if (_usersDataManger.PasswordRest(passwordRest))
-                return Ok();
+        public IActionResult Put([FromHeader(Name = "Authorization")] string authorization, [FromBody] PasswordRestModel passwordRest) {
+            // if(!_authDataManger.Authorization(authorization))
+            //     return Unauthorized();
+            if (_authDataManger.PasswordRest(passwordRest,  out var response))
+                return Ok(response);
             else 
-                return BadRequest();
+                return BadRequest(response);
         }
 
         [HttpPost]
         [Route("Login")]
         public ActionResult<TokenRequestDataModel> Post([FromBody] LoginModel login) {
-            return _usersDataManger.LoginUser(login);
+            return _authDataManger.LoginUser(login);
         }
 
         // POST api/Users/Auth/SignUp
@@ -32,14 +34,14 @@ namespace ApiDemo.Controllers {
         [Route("SignUp")]
         public ActionResult<TokenRequestDataModel> Post([FromBody] SignUpModel signUp) {
             _logger.Log(LogLevel.Information, "User created");
-            return Ok(_usersDataManger.SignUpUser(signUp));
+            return Ok(_authDataManger.SignUpUser(signUp));
         }
 
         //Post api/Users/Auth/GetTokens
         [HttpPost]
         [Route("GetTokens")]
         public ActionResult<TokenRequestDataModel> Post([FromBody] GetTokensModel getTokens) {
-            TokenRequestDataModel tokenRequestData = _usersDataManger.getTokens(getTokens);
+            TokenRequestDataModel tokenRequestData = _authDataManger.getTokens(getTokens);
             if (!tokenRequestData.Succeeded)
                 return BadRequest(tokenRequestData);
             return Ok(tokenRequestData.TokensModelData);
@@ -49,7 +51,7 @@ namespace ApiDemo.Controllers {
         [HttpPost]
         [Route("VerifyAccessToken")]
         public IActionResult Post([FromBody] VerifyAccessTokenModel verifyAccessToken) {
-            if (_usersDataManger.VerifyAccessToken(verifyAccessToken, out var response))
+            if (_authDataManger.VerifyAccessToken(verifyAccessToken, out var response))
                 return Ok(response);
             return BadRequest();
         }
@@ -58,7 +60,7 @@ namespace ApiDemo.Controllers {
         [HttpPost]
         [Route("VerifyRefreshToken")]
         public IActionResult Post([FromBody] VerifyRefreshTokenModel verifyRefreshToken) {
-            if (_usersDataManger.VerifyRefreshToken(verifyRefreshToken, out var response))
+            if (_authDataManger.VerifyRefreshToken(verifyRefreshToken, out var response))
                 return Ok(response);
             return BadRequest();
         }

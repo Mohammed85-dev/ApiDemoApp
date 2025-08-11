@@ -8,7 +8,7 @@ using ApiDemo.Models.Auth;
 namespace ApiDemo.DataBase.Classes {
     public class UsersDataManger(ITokenGenerator _tokenGenerator) : IUsersDataManger, IAuthDataManger {
         private readonly LinkedList<UserData> _users = new();
-
+        
         private bool tryGetUser(Guid uuid, out UserData userData) {
             var node = _users.First;
             while (node != null) {
@@ -50,16 +50,33 @@ namespace ApiDemo.DataBase.Classes {
 
         public int GetCount() => _users.Count;
 
-        public bool PasswordRest(PasswordRestModel passwordRest) {
-            tryGetUser(passwordRest.Uuid, out UserData? userData);
-            if (passwordRest.OldPassword != userData.Password)
+        public bool PasswordRest(PasswordRestModel passwordRest, out string response) {
+            if (!tryGetUser(passwordRest.Uuid, out UserData? userData)) {
+                response = "Invalid uuid";
                 return false;
+            }
+            if (passwordRest.OldPassword != userData.Password) {
+                response = "Incorrect old password";
+                return false;
+            }
             userData.Password = passwordRest.NewPassword;
+            response = "Changed password";
             return true;
         }
 
-        public bool Authorization(string accessToken) {
+        public bool Authorization(string accessToken, IAuthDataManger.Permission permission, out string response) {
             throw new NotImplementedException();
+        }
+
+        public bool Authorization(Guid uuid, string accessToken, IAuthDataManger.Permission permission, out string response) {
+            
+            if (!tryGetUser(uuid, out UserData userData)) {
+                response = "Invalid uuid";
+                return false;
+            }
+
+            response = "Valid AccessToken";
+            return true;
         }
 
         public TokenRequestDataModel SignUpUser(SignUpModel signUpData) {
@@ -150,7 +167,7 @@ namespace ApiDemo.DataBase.Classes {
                     Message = "Failed to find user",
                 };
             }
-                
+
             return (verifyAccessToken(userData, getTokensData.AccessToken) &&
                 verifyRefreshToken(userData, getTokensData.RefreshToken))
                 ? new TokenRequestDataModel() {
