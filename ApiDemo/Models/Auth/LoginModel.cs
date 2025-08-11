@@ -9,9 +9,9 @@ namespace ApiDemo.Models.Auth {
         [Required]
         public required bool UsingUsername { get; init; }
         [JsonPropertyName("username")] public string Username { get; init; } = string.Empty;
-        [EmailAddress]
+        [EmailAddress] 
         [JsonPropertyName("email")]
-        public Email Email { get; init; }
+        public string Email { get; init; } = string.Empty;
         [JsonPropertyName("password")]
         [Required]
         [Length(8, 32)]
