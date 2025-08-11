@@ -20,8 +20,8 @@ namespace ApiDemo.Controllers {
 
         // GET api/Users/{uuid}
         [HttpGet("{uuid:guid}")]
-        public PublicUserDataModel Get(Guid uuid) {
-            return _usersDataManger.GetPublicUserData(uuid);
+        public ActionResult<PublicUserDataModel> Get(Guid uuid) {
+            return Ok(_usersDataManger.GetPublicUserData(uuid));
         }
 
         // DELETE api/Users/5

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ApiDemo.DataBase.Classes.Interfaces;
 using ApiDemo.Models;
@@ -8,13 +7,21 @@ namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController(ILogger<UsersController> _logger, IUsersDataManger _usersDataManger) : ControllerBase {
-        
+        // [HttpPost]
+        // [Route("PasswordRest")]
+        // public IActionResult Post([FromBody] PasswordRestModel passwordRest) {
+        //     if (_usersDataManger.PasswordRest(passwordRest))
+        //         return Ok();
+        //     else 
+        //         return BadRequest();
+        // }
+
         [HttpPost]
         [Route("Login")]
         public ActionResult<TokenRequestDataModel> Post([FromBody] LoginModel login) {
             return _usersDataManger.LoginUser(login);
         }
-        
+
         // POST api/Users/Auth/SignUp
         /// <summary>
         /// 

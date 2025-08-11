@@ -1,6 +1,7 @@
 using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Classes.Interfaces;
 using ApiDemo.TypesData;
+using Microsoft.AspNetCore.Mvc;
 using ApiDemo.Models;
 
 namespace ApiDemo.DataBase.Classes {
@@ -8,6 +9,9 @@ namespace ApiDemo.DataBase.Classes {
         private readonly Dictionary<Guid, UserData> _users = new();
 
         public int GetCount() => _users.Count;
+        public bool PasswordRest(PasswordRestModel passwordRest) {
+            return false;
+        }
 
         public TokenRequestDataModel SignUpUser(SignUpModel signUpData) {
             UserData userData = new UserData() {
