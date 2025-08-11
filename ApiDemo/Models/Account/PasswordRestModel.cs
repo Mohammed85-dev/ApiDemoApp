@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
 
-namespace ApiDemo.Models.Auth {
+namespace ApiDemo.Models.Account {
     public partial class PasswordRestModel {
         [JsonPropertyName("uuid")] [Required] public required Guid Uuid { get; init; }
         [JsonPropertyName("oldPassword")]

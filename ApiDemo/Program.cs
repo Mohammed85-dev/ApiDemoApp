@@ -7,6 +7,7 @@ using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Classes;
+using ApiDemo.Mangers.Interfaces;
 using ApiDemo.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,9 +60,9 @@ app.Run();
 
 void addSingletons(IServiceCollection services) {
     services.AddSingleton<ITokenGenerator, TokenGenerator>();
-    services.AddSingleton<IUsersDataManger, UsersDataManger>();
-    services.AddSingleton<IAccountDataManger, AccountDataManger>();
-    services.AddSingleton<ITokenAutherizationManger, TokenAutherizationManger>();
+    services.AddSingleton<IUsersManger, UsersManger>();
+    services.AddSingleton<IAccountManger, AccountManger>();
+    services.AddSingleton<ITokenAuthorizationManger, TokenAuthorizationManger>();
     
     services.AddSingleton<ITokenDataDB, TokenDataDB>();
     services.AddSingleton<IUsersDataDB, UsersDataDB>();

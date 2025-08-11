@@ -1,26 +1,29 @@
 using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Interfaces;
+using ApiDemo.Mangers.Interfaces;
+using ApiDemo.Models;
+using ApiDemo.Models.Account;
 using ApiDemo.Models.Auth.Token;
 using ApiDemo.TypesData;
 
 namespace ApiDemo.Mangers.Classes;
 
-public class TokenAutherizationManger(ITokenDataDB tokenDB, IAccountDataDB accountDB, ITokenGenerator tokenGenerator) : ITokenAutherizationManger {
-    public TokenDataModel GenerateUserDataRWToken(AccountData accountData) {
+public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accountDB, ITokenGenerator tokenGenerator) : ITokenAuthorizationManger {
+    public TokenDataModel GenerateUserDataRWToken(AccountDataModel accountDataModel) {
         TokenDataModel tokenData = new() {
             AccessToken = tokenGenerator.GenerateToken(),
             RefreshToken = tokenGenerator.GenerateToken(),
-            OwnerUUID = accountData.AccountUUID,
-            Permission = [ITokenAutherizationManger.Permissions.userDataRW],
+            OwnerUUID = accountDataModel.UUID,
+            Permissions = [TokenPermissions.userDataRW],
         };
-        accountData.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
-        accountData.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
+        accountDataModel.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
+        accountDataModel.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
         tokenDB.addToken(tokenData);
         return tokenData;
     }
 
-    public bool IsAuthorized(Guid uuid, string accessToken, ITokenAutherizationManger.Permissions permission, out string response) {
-        if (!accountDB.TryGetAccountData(uuid, out AccountData accountData)) {
+    public bool IsAuthorized(Guid uuid, string accessToken, TokenPermissions requiredPermissions, out string response) {
+        if (!accountDB.TryGetAccountData(uuid, out AccountDataModel accountData)) {
             response = "Invalid uuid";
             return false;
         }
@@ -28,7 +31,7 @@ public class TokenAutherizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             response = "Invalid access token";
         }
 
-        if (!tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)).Permission.Contains(permission)) {
+        if (!tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)).Permissions.Contains(requiredPermissions)) {
             response = "Invalid permission";
             return false;
         }

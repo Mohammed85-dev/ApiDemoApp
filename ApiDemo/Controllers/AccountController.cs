@@ -1,22 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
 using ApiDemo.DataBase.Interfaces;
+using ApiDemo.Mangers.Interfaces;
 using ApiDemo.Models;
+using ApiDemo.Models.Account;
 using ApiDemo.Models.Auth;
 
 
 namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(IAccountDataManger _accountDataManger) : ControllerBase {
+    public class AccountController(IAccountManger _accountData, ITokenAuthorizationManger tokenAuthorization) : ControllerBase {
         // POST api/Account/PasswordRest
         [HttpPut]
         [Route("PasswordRest")]
-        public IActionResult Put([FromBody] PasswordRestModel passwordRest) {
-            return UnprocessableEntity();
-            if (_accountDataManger.PasswordRest(passwordRest))
-                return Ok();
-            else 
-                return BadRequest();
+        public IActionResult Put([FromHeader] string Authorization, [FromBody] PasswordRestModel passwordRest) {
+            if (!tokenAuthorization.IsAuthorized(
+                passwordRest.Uuid,
+                Authorization,
+                TokenPermissions.userDataRW,
+                out string tokenAuthResponse)) {
+                return BadRequest(tokenAuthResponse);
+            }
+            if (_accountData.PasswordRest(passwordRest, out string passwordRestResponse))
+                return Ok(passwordRestResponse);
+            else
+                return BadRequest(passwordRestResponse);
         }
 
         // POST api/Account/Login
@@ -24,7 +32,7 @@ namespace ApiDemo.Controllers {
         [Route("Login")]
         public ActionResult<TokenRequestResponseDataModel> Post([FromBody] LoginModel login) {
             // return UnprocessableEntity();
-            return _accountDataManger.LoginUser(login);
+            return _accountData.LoginUser(login);
         }
 
         // POST api/Account/SignUp
@@ -35,7 +43,7 @@ namespace ApiDemo.Controllers {
         [HttpPost]
         [Route("SignUp")]
         public ActionResult<TokenRequestResponseDataModel> Post([FromBody] SignUpModel signUp) {
-            return Ok(_accountDataManger.SignUpUser(signUp));
+            return Ok(_accountData.SignUpUser(signUp));
         }
 
         /*//Post api/Users/Auth/GetTokens

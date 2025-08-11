@@ -7,7 +7,7 @@ using ApiDemo.Models.Auth;
 namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(ILogger<UsersController> _logger, ITokenAutherizationManger _authDataManger) : ControllerBase {
+    public class AuthController() : ControllerBase {
         // [HttpPut]
         // [Route("PasswordRest")]
         // public IActionResult Put([FromHeader(Name = "Authorization")] string authorization, [FromBody] PasswordRestModel passwordRest) {

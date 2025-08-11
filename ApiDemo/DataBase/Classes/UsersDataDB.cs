@@ -1,39 +1,54 @@
+using System.Linq.Expressions;
 using ApiDemo.DataBase.Interfaces;
+using ApiDemo.Models;
+using ApiDemo.Models.User;
 using ApiDemo.TypesData;
 
 namespace ApiDemo.DataBase.Classes;
 
 public class UsersDataDB : IUsersDataDB {
-    private readonly LinkedList<UserData> _users = new();
-    
+    private readonly LinkedList<UserDataModel> _users = [];
+
     public int GetUserCount() => _users.Count;
-    public void AddUser(UserData user) {
+
+    public void AddUser(UserDataModel user) {
         _users.AddLast(user);
     }
 
-    public bool tryGetUser(Guid uuid, out UserData userData) {
-        var node = _users.First;
-        while (node != null) {
-            if (node.Value!.Uuid == uuid) {
-                userData = node.Value;
+    public UserDataModel? GetUserData(string username) {
+        return find(user => user.Username, username);
+    }
+
+    public UserDataModel? GetUserData(Guid uuid) {
+        return find(user => user.Uuid, uuid);
+    }
+    
+    public bool tryGetUser(Guid uuid, out UserDataModel userDataModel) {
+        return tryFind(user => user.Uuid, uuid, out userDataModel);
+    }
+
+    public bool tryGetUser(string username, out UserDataModel userDataModel) {
+        return tryFind(user => user.Username, username, out userDataModel);
+    }
+
+    private bool tryFind<TField>(Expression<Func<UserDataModel, TField>> fieldSelector, TField value, out UserDataModel userDataModel) {
+        var getter = fieldSelector.Compile();
+        foreach (var item in _users) {
+            if (EqualityComparer<TField>.Default.Equals(getter(item), value)) {
+                userDataModel = item;
                 return true;
             }
-            node = node.Next;
         }
-        userData = null!;
+        userDataModel = null!;
         return false;
     }
 
-    public bool tryGetUser(string username, out UserData userData) {
-        var node = _users.First;
-        while (node != null) {
-            if (node.Value!.Username == username) {
-                userData = node.Value;
-                return true;
-            }
-            node = node.Next;
+    private UserDataModel? find<TField>(Expression<Func<UserDataModel, TField>> fieldSelector, TField value) {
+        var getter = fieldSelector.Compile();
+        foreach (var item in _users) {
+            if (EqualityComparer<TField>.Default.Equals(getter(item), value))
+                return item;
         }
-        userData = null!;
-        return false;
+        return null;
     }
 }

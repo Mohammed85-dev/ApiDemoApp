@@ -4,10 +4,10 @@ using ApiDemo.Models.Auth.Token;
 namespace ApiDemo.DataBase.Classes;
 
 public class TokenDataDB : ITokenDataDB {
-    private LinkedList<TokenDataModel> tokens = new LinkedList<TokenDataModel>();
+    private readonly LinkedList<TokenDataModel> _tokens = [];
 
     public TokenDataModel getTokenData(string accessToken) {
-        var node = tokens.First;
+        var node = _tokens.First;
         while (node != null) {
             if (node.Value!.AccessToken == accessToken) {
                 return node.Value;
@@ -18,6 +18,6 @@ public class TokenDataDB : ITokenDataDB {
     }
 
     public void addToken(TokenDataModel token) {
-        tokens.AddLast(token);
+        _tokens.AddLast(token);
     }
 }

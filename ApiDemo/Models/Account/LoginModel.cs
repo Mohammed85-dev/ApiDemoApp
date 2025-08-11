@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
-using ApiDemo.TypesData;
 
-namespace ApiDemo.Models.Auth {
+namespace ApiDemo.Models.Account {
     public partial class LoginModel {
         [JsonPropertyName("usingUsername")]
         [Required]

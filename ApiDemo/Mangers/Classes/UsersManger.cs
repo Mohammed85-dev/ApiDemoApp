@@ -1,16 +1,14 @@
-using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Interfaces;
-using ApiDemo.TypesData;
-using Microsoft.AspNetCore.Mvc;
 using ApiDemo.Models;
-using ApiDemo.Models.Auth;
+using ApiDemo.Models.User;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ApiDemo.DataBase.Classes {
-    public class UsersDataManger(IUsersDataDB _usersDB) : IUsersDataManger {
+namespace ApiDemo.Mangers.Classes {
+    public class UsersManger(IUsersDataDB _usersDB) : IUsersManger {
         public int GetCount() => _usersDB.GetUserCount();
 
         public ActionResult<PublicUserDataModel> GetPublicUserData(Guid uuid) {
-            if (!_usersDB.tryGetUser(uuid, out UserData userData)) {
+            if (!_usersDB.tryGetUser(uuid, out UserDataModel userData)) {
                 return new BadRequestResult();
             }
             return new PublicUserDataModel() {

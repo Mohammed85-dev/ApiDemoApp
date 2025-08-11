@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiDemo.DataBase.Interfaces;
+using ApiDemo.Mangers.Interfaces;
 
 namespace ApiDemo.Models.Auth.Token;
 
@@ -23,5 +24,5 @@ public class TokenDataModel {
 
     [Required]
     [JsonPropertyName("permissions")]
-    public List<ITokenAutherizationManger.Permissions> Permission { get; set; } = [ITokenAutherizationManger.Permissions.userDataRW];
+    public required List<TokenPermissions> Permissions { get; init; }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController(IUsersDataManger _usersDataManger) : ControllerBase {
+    public class UsersController(IUsersManger _usersDataManger) : ControllerBase {
         /*public UsersController(ILogger<UsersController> logger, IUsersDataManger usersDatMangerDataManger) {
             _logger = logger;
             _usersDatManger = usersDatMangerDataManger;

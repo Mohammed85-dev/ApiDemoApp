@@ -1,10 +1,11 @@
 using ApiDemo.Models;
+using ApiDemo.Models.Account;
 using ApiDemo.Models.Auth;
 
 namespace ApiDemo.DataBase.Interfaces;
 
-public interface IAccountDataManger {
-    public bool PasswordRest(PasswordRestModel passwordRest);
+public interface IAccountManger {
+    public bool PasswordRest(PasswordRestModel passwordRest, out string response);
     public TokenRequestResponseDataModel SignUpUser(SignUpModel signUpModel);
     public TokenRequestResponseDataModel LoginUser(LoginModel loginModel);
     
