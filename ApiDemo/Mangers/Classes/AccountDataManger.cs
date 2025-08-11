@@ -7,7 +7,7 @@ using ApiDemo.Models.Auth;
 
 namespace ApiDemo.DataBase.Classes;
 
-public class AccountDataManger(IAccountDataDB accountDB, IUsersDataDB usersDB, ITokenAutherizationManger iTokenAutherizationManger) : IAccountDataManger {
+public class AccountDataManger(IAccountDataDB accountDB, IUsersDataDB usersDB, ITokenAutherizationManger tokenAutherizationManger) : IAccountDataManger {
     public bool PasswordRest(PasswordRestModel passwordRest) {
         throw new NotImplementedException();
     }
@@ -40,31 +40,27 @@ public class AccountDataManger(IAccountDataDB accountDB, IUsersDataDB usersDB, I
         return new TokenRequestResponseDataModel() {
             Succeeded = true,
             Message = "Created new user",
-            TokensModelData = iTokenAutherizationManger.GenerateUserDataRWToken(accountData),
+            TokensModelData = tokenAutherizationManger.GenerateUserDataRWToken(accountData),
         };
     }
 
     public TokenRequestResponseDataModel LoginUser(LoginModel loginModel) {
-        throw new NotImplementedException();
-    }
-
-    /*public TokenRequestResponseDataModel LoginUser(LoginModel loginModel) {
-        UserData? userData = (loginModel.UsingUsername)
-            ? (usersDB.tryGetUser(loginModel.Username, out UserData dataE))
+        AccountData? accountData = (loginModel.UsingUsername)
+            ? (accountDB.TryGetAccountData(loginModel.Username, out AccountData dataE))
                 ? dataE
                 : null
-            : usersDB.tryGetUser(loginModel.Email, out UserData dataU)
+            : accountDB.TryGetAccountData((Email)loginModel.Email, out AccountData dataU)
                 ? dataU
                 : null;
 
-        if (userData == null)
+        if (accountData == null)
             return new TokenRequestResponseDataModel() {
                 Succeeded = false,
                 Message = "Failed to find user",
                 TokensModelData = null,
             };
 
-        if (loginModel.Password != userData.Password)
+        if (loginModel.Password != accountData.AccountPassword)
             return new TokenRequestResponseDataModel() {
                 Succeeded = false,
                 Message = "Incorrect password",
@@ -74,7 +70,7 @@ public class AccountDataManger(IAccountDataDB accountDB, IUsersDataDB usersDB, I
         return new TokenRequestResponseDataModel() {
             Succeeded = true,
             Message = "Login in successful. Generated new token",
-            TokensModelData = generateTokenData(userData),
+            TokensModelData = tokenAutherizationManger.GenerateUserDataRWToken(accountData),
         };
-    }*/
+    }
 }

@@ -1,3 +1,5 @@
+using ApiDemo.Core.Properties;
+
 namespace ApiDemo.TypesData;
 
 public class AccountData {
