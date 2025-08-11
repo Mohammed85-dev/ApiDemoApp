@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
 
@@ -16,7 +17,6 @@ namespace ApiDemo.Models {
         [Required]
         [MinLength(8)]
         [MaxLength(64)]
-        [DeniedValues("/")]
         [IsEncrypted]
         public required string Password { get; init; }
     }
