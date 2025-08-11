@@ -6,6 +6,7 @@
 using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
+using ApiDemo.Mangers.Classes;
 using ApiDemo.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,10 +21,7 @@ builder.Services.AddSwaggerGen(c => {
     c.DocumentFilter<RequiredHeadersFromAttributesFilter>();
 });
 
-ITokenGenerator tokenGenerator = new TokenGenerator();
-builder.Services.AddSingleton<ITokenGenerator>(tokenGenerator);
-builder.Services.AddSingleton<IUsersDataManger>(new UsersDataManger(tokenGenerator));
-builder.Services.AddSingleton<IAuthDataManger>(new UsersDataManger(tokenGenerator));
+addSingletons(builder.Services);
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowLocalhost",
@@ -58,3 +56,14 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void addSingletons(IServiceCollection services) {
+    services.AddSingleton<ITokenGenerator, TokenGenerator>();
+    services.AddSingleton<IUsersDataManger, UsersDataManger>();
+    services.AddSingleton<IAccountDataManger, AccountDataManger>();
+    services.AddSingleton<ITokenAutherizationManger, TokenAutherizationManger>();
+    
+    services.AddSingleton<ITokenDataDB, TokenDataDB>();
+    services.AddSingleton<IUsersDataDB, UsersDataDB>();
+    services.AddSingleton<IAccountDataDB, AccountDataDB>();
+}

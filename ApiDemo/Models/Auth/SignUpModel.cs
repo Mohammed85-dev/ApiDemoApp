@@ -14,7 +14,8 @@ namespace ApiDemo.Models {
         public required string Email { get; init; }
         [JsonPropertyName("password")]
         [Required]
-        [Length(8, 32)]
+        [MinLength(8)]
+        [MaxLength(64)]
         [DeniedValues("/")]
         [IsEncrypted]
         public required string Password { get; init; }
