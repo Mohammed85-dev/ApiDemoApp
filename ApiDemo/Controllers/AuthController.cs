@@ -8,9 +8,9 @@ namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController(ILogger<UsersController> _logger, IAuthDataManger _usersDataManger) : ControllerBase {
-        [HttpPost]
+        [HttpPut]
         [Route("PasswordRest")]
-        public IActionResult Post([FromBody] PasswordRestModel passwordRest) {
+        public IActionResult Put([FromBody] PasswordRestModel passwordRest) {
             if (_usersDataManger.PasswordRest(passwordRest))
                 return Ok();
             else 
