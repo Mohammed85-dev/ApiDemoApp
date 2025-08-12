@@ -23,7 +23,7 @@ public class AccountDataDB : IAccountDataDB {
     }
 
     public AccountDataModel? GetAccountData(Email accountEmail) {
-        return find<string>(data => data.Email, accountEmail);
+        return find<Email>(data => data.Email, accountEmail);
     }
 
     public bool TryGetAccountData(Guid userUUID, out AccountDataModel accountDataModel) {
@@ -35,7 +35,7 @@ public class AccountDataDB : IAccountDataDB {
     }
 
     public bool TryGetAccountData(Email accountEmail, out AccountDataModel accountDataModel) {
-        return tryFind<string>(data => data.Email, accountEmail, out accountDataModel);
+        return tryFind<Email>(data => data.Email, accountEmail, out accountDataModel);
     }
 
     private bool tryFind<TField>(Expression<Func<AccountDataModel, TField>> fieldSelector, TField value, out AccountDataModel accountDataModel) {

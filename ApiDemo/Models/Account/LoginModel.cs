@@ -7,10 +7,10 @@ namespace ApiDemo.Models.Account {
         [JsonPropertyName("usingUsername")]
         [Required]
         public required bool UsingUsername { get; init; }
-        [JsonPropertyName("username")] public string Username { get; init; } = string.Empty;
+        [JsonPropertyName("username")] public string Username { get; init; }
         [EmailAddress] 
         [JsonPropertyName("email")]
-        public string Email { get; init; } = string.Empty;
+        public string Email { get; init; } 
         [JsonPropertyName("password")]
         [Required]
         [MinLength(8)]
