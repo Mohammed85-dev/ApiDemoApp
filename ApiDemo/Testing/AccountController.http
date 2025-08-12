@@ -49,7 +49,7 @@ Content-Type: application/json
 PUT {{ApiDemo_HostAddress}}/api/Account/ChangePassword
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{AccessToken}}
+Authorization: {{AccessToken}}
 
 {
   "uuid": "{{Uuid}}",

@@ -31,8 +31,8 @@ namespace ApiDemo.Controllers {
         [HttpPost]
         [Route("Login")]
         public ActionResult<TokenRequestResponseDataModel> Post([FromBody] LoginModel login) {
-            // return UnprocessableEntity();
-            return _accountData.LoginUser(login);
+            var response = _accountData.LoginUser(login);
+            return response.Succeeded ? Ok(response) : BadRequest(response);
         }
 
         // POST api/Account/SignUp
@@ -43,7 +43,8 @@ namespace ApiDemo.Controllers {
         [HttpPost]
         [Route("SignUp")]
         public ActionResult<TokenRequestResponseDataModel> Post([FromBody] SignUpModel signUp) {
-            return Ok(_accountData.SignUpUser(signUp));
+            var response = _accountData.SignUpUser(signUp);
+            return response.Succeeded ? Ok(response) : BadRequest(response);
         }
 
         /*//Post api/Users/Auth/GetTokens
