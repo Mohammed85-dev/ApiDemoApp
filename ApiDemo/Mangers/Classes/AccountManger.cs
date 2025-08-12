@@ -27,10 +27,10 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }*/
     
     public TokenRequestResponseDataModel SignUpUser(SignUpModel signUpData) {
-        if (usersDB.tryGetUser(signUpData.Username, out var _))
+        if (usersDB.tryGetUser(signUpData.Username, out var _) || accountDB.TryGetAccountData((Email)signUpData.Email, out var _))
             return new TokenRequestResponseDataModel() {
                 Succeeded = false,
-                Message = "A user with that username already exists",
+                Message = "A user with that username/email already exists",
                 TokensModelData = null,
             };
         
@@ -53,11 +53,11 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
 
     public TokenRequestResponseDataModel LoginUser(LoginModel loginModel) {
         AccountDataModel? accountData = (loginModel.UsingUsername)
-            ? (accountDB.TryGetAccountData(loginModel.Username, out AccountDataModel dataE))
-                ? dataE
-                : null
-            : accountDB.TryGetAccountData((Email)loginModel.Email, out AccountDataModel dataU)
+            ? (accountDB.TryGetAccountData(loginModel.Username, out AccountDataModel dataU))
                 ? dataU
+                : null
+            : accountDB.TryGetAccountData((Email)loginModel.Email, out AccountDataModel dataE)
+                ? dataE
                 : null;
 
         if (accountData == null)
