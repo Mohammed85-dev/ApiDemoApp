@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace ApiDemo.Models {
-    public partial class PublicUserDataModel {
+    public class PublicUserDataModel {
         [JsonPropertyName("uuid")]
         public required Guid Uuid { get; init; }
         [JsonPropertyName("username")] public required string Username { get; init; }
