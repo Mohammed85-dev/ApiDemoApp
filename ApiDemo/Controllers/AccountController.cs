@@ -10,18 +10,18 @@ namespace ApiDemo.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController(IAccountManger _accountData, ITokenAuthorizationManger tokenAuthorization) : ControllerBase {
-        // POST api/Account/PasswordRest
+        // POST api/Account/ChangePassword
         [HttpPut]
-        [Route("PasswordRest")]
-        public IActionResult Put([FromHeader] string Authorization, [FromBody] PasswordRestModel passwordRest) {
+        [Route("ChangePassword")]
+        public IActionResult Put([FromHeader(Name = "Authorization")] string Authorization, [FromBody] PasswordChangeModel passwordChange) {
             if (!tokenAuthorization.IsAuthorized(
-                passwordRest.Uuid,
+                passwordChange.Uuid,
                 Authorization,
                 TokenPermissions.userDataRW,
                 out string tokenAuthResponse)) {
                 return BadRequest(tokenAuthResponse);
             }
-            if (_accountData.PasswordRest(passwordRest, out string passwordRestResponse))
+            if (_accountData.PasswordRest(passwordChange, out string passwordRestResponse))
                 return Ok(passwordRestResponse);
             else
                 return BadRequest(passwordRestResponse);

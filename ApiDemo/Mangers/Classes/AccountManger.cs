@@ -8,16 +8,16 @@ using ApiDemo.TypesData;
 namespace ApiDemo.Mangers.Classes;
 
 public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, ITokenAuthorizationManger tokenAuthorizationManger) : IAccountManger {
-    public bool PasswordRest(PasswordRestModel passwordRest, out string response) {
-        if (!accountDB.TryGetAccountData(passwordRest.Uuid, out AccountDataModel account)) {
+    public bool PasswordRest(PasswordChangeModel passwordChange, out string response) {
+        if (!accountDB.TryGetAccountData(passwordChange.Uuid, out AccountDataModel account)) {
             response = "Invalid uuid";
             return false;
         }
-        if (passwordRest.OldPassword != account.Password) {
+        if (passwordChange.OldPassword != account.Password) {
             response = "Incorrect old password";
             return false;
         }
-        account.Password = passwordRest.NewPassword;
+        account.Password = passwordChange.NewPassword;
         response = "Changed password";
         return true;
     }
@@ -27,7 +27,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }*/
     
     public TokenRequestResponseDataModel SignUpUser(SignUpModel signUpData) {
-        if (usersDB.tryGetUser(signUpData.Username, out var _) || accountDB.TryGetAccountData((Email)signUpData.Email, out var _))
+        if (usersDB.tryGetUser(signUpData.Username, out var _) || accountDB.TryGetAccountDataEmail(signUpData.Email, out var _))
             return new TokenRequestResponseDataModel() {
                 Succeeded = false,
                 Message = "A user with that username/email already exists",
@@ -37,7 +37,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
         AccountDataModel accountDataModel = new() {
             UUID = Guid.NewGuid(),
             UserUsername = signUpData.Username,
-            Email = (Email)signUpData.Email,
+            Email = signUpData.Email,
             Password = signUpData.Password,
         };
 
@@ -52,14 +52,14 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }
 
     public TokenRequestResponseDataModel LoginUser(LoginModel loginModel) {
-        AccountDataModel? accountData = (loginModel.UsingUsername)
-            ? (accountDB.TryGetAccountData(loginModel.Username, out AccountDataModel dataU))
-                ? dataU
-                : null
-            : accountDB.TryGetAccountData((Email)loginModel.Email, out AccountDataModel dataE)
-                ? dataE
-                : null;
-
+        AccountDataModel? accountData;
+        if (loginModel.UsingUsername) {
+            accountData = accountDB.GetAccountData(loginModel.Username);
+        }
+        else {
+            accountData = accountDB.GetAccountDataEmail(loginModel.Email);
+        }
+        
         if (accountData == null)
             return new TokenRequestResponseDataModel() {
                 Succeeded = false,

@@ -14,7 +14,7 @@ public class AccountDataDB : IAccountDataDB {
         _accounts.AddLast(accountDataModel);
     }
 
-    public AccountDataModel? GetAccountData(Guid userUUID) {
+    public AccountDataModel? GetAccountDataEmail(Guid userUUID) {
         return find(data => data.UUID, userUUID);
     }
 
@@ -22,8 +22,8 @@ public class AccountDataDB : IAccountDataDB {
         return find(data => data.UserUsername, accountUserUsername);
     }
 
-    public AccountDataModel? GetAccountData(Email accountEmail) {
-        return find<Email>(data => data.Email, accountEmail);
+    public AccountDataModel? GetAccountDataEmail(string accountEmail) {
+        return find<string>(data => data.Email, accountEmail);
     }
 
     public bool TryGetAccountData(Guid userUUID, out AccountDataModel accountDataModel) {
@@ -34,8 +34,8 @@ public class AccountDataDB : IAccountDataDB {
         return tryFind(data => data.UserUsername, accountUserUsername, out accountDataModel);
     }
 
-    public bool TryGetAccountData(Email accountEmail, out AccountDataModel accountDataModel) {
-        return tryFind<Email>(data => data.Email, accountEmail, out accountDataModel);
+    public bool TryGetAccountDataEmail(string accountEmail, out AccountDataModel accountDataModel) {
+        return tryFind(data => data.Email, accountEmail, out accountDataModel);
     }
 
     private bool tryFind<TField>(Expression<Func<AccountDataModel, TField>> fieldSelector, TField value, out AccountDataModel accountDataModel) {

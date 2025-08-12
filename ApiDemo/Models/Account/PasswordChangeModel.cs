@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
 
 namespace ApiDemo.Models.Account {
-    public partial class PasswordRestModel {
+    public class PasswordChangeModel {
         [JsonPropertyName("uuid")] [Required] public required Guid Uuid { get; init; }
         [JsonPropertyName("oldPassword")]
         [Required]

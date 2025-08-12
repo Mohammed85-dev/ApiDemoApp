@@ -5,7 +5,7 @@ using ApiDemo.Models.Auth;
 namespace ApiDemo.DataBase.Interfaces;
 
 public interface IAccountManger {
-    public bool PasswordRest(PasswordRestModel passwordRest, out string response);
+    public bool PasswordRest(PasswordChangeModel passwordChange, out string response);
     public TokenRequestResponseDataModel SignUpUser(SignUpModel signUpModel);
     public TokenRequestResponseDataModel LoginUser(LoginModel loginModel);
     

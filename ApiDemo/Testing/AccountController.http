@@ -1,0 +1,58 @@
+@ApiDemo_HostAddress = https://localhost:7222
+@Username = mohammed85
+@Email = mohammed@hotmail.com
+@Password = 987654321
+
+### Test SignUp endpoint
+# @name signup
+POST {{ApiDemo_HostAddress}}/api/Account/SignUp
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "{{Username}}",
+  "email": "{{Email}}",
+  "password": "{{Password}}"
+}
+
+### Test Login endpoint using username
+# @name loginUser
+POST {{ApiDemo_HostAddress}}/api/Account/Login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "usingUsername": true,
+  "username": "{{Username}}",
+  "password": "{{Password}}"
+}
+
+### Test Login endpoint using email
+# @name loginEmail
+POST {{ApiDemo_HostAddress}}/api/Account/Login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "usingUsername": false,
+  "email": "{{Email}}",
+  "password": "{{Password}}"
+}
+
+> {%
+    // Extract fields from the JSON response into global variables
+    client.global.set("Uuid", response.body.tokensData.ownerUUID);
+    client.global.set("AccessToken", response.body.tokensData.accessToken);
+%}
+
+### Test PasswordReset
+PUT {{ApiDemo_HostAddress}}/api/Account/ChangePassword
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+{
+  "uuid": "{{Uuid}}",
+  "oldPassword": "{{Password}}",
+  "newPassword": "{{Password}}"
+}

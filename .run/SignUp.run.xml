@@ -1,5 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SignUp" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" path="$PROJECT_DIR$/ApiDemo/ApiDemo.http" executionIdentifier="Test SignUp endpoint">
-    <method v="2" />
-  </configuration>
-</component>

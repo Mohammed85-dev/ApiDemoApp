@@ -18,7 +18,13 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
         };
         accountDataModel.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
         accountDataModel.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
-        tokenDB.addToken(tokenData);
+        TokenDataModel storedTokenData = new() {
+            AccessToken = tokenGenerator.HashToken(tokenData.AccessToken),
+            RefreshToken = tokenGenerator.HashToken(tokenData.RefreshToken),
+            OwnerUUID = accountDataModel.UUID,
+            Permissions = [TokenPermissions.userDataRW],
+        };
+        tokenDB.addToken(storedTokenData);
         return tokenData;
     }
 
@@ -31,6 +37,10 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             response = "Invalid access token";
         }
 
+        if (tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)) == null) {
+            response = "Invalid token";
+            return false;
+        }
         if (!tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)).Permissions.Contains(requiredPermissions)) {
             response = "Invalid permission";
             return false;
@@ -97,4 +107,3 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
     //             Message = "Invalid access token or refresh token for UUID",
     //         };
 }
-
