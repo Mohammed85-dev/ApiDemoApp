@@ -7,10 +7,10 @@ using ISession = Cassandra.ISession;
 namespace ApiDemo.DataBase.Classes;
 
 public class TokenDataDB : ITokenDataDB {
-    Table<TokenData> _tokens;
+    private readonly Table<TokenData> _tokens;
 
     public TokenDataDB(ISession cassandraSession) {
-        _tokens = cassandraSession.GetTable<TokenData>();
+        _tokens = new Table<TokenData>(cassandraSession); 
         _tokens.CreateIfNotExists();
     }
 
