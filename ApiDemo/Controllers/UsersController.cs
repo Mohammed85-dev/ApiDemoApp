@@ -14,7 +14,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
         _usersDatManger = usersDatMangerDataManger;
     }*/
 
-    // GET: api/Users/Count]
+    // GET: [api/Users/Count]
     [HttpGet]
     [Route("Count")]
     public long Get() {
@@ -29,15 +29,15 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
 
     [HttpGet]
     [Route("Avatar/{uuid:guid}")]
-    public async Task<IActionResult> GetAvatar(Guid uuid) {
-        throw  new NotImplementedException();
+    public IActionResult GetAvatar(Guid uuid) {
+        return File(_users.GetUserAvatar(uuid), "image/png");
     }
     
     // POST api/Users/Avatar/{uuid} 
     [HttpPost]
     [Route("Avatar/{uuid:guid}")]
     public async Task<IActionResult> UploadAvatar(Guid uuid, [FromHeader(Name = "Authorization")] string Authorization,
-        [FromForm] IFormFile? avatar) {
+        IFormFile? avatar) {
         if (!_auth.IsAuthorized(uuid, Authorization, TokenPermissions.userDataRW, out var response))
             return Unauthorized(response);
         if (avatar == null || avatar.Length == 0)

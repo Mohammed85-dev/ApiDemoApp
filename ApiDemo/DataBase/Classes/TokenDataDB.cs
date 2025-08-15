@@ -1,7 +1,6 @@
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Models.TokenAuthorizationModels;
 using Cassandra.Data.Linq;
-using NuGet.Common;
 using ISession = Cassandra.ISession;
 
 namespace ApiDemo.DataBase.Classes;

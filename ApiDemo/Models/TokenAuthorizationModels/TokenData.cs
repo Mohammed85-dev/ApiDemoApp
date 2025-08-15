@@ -8,17 +8,17 @@ namespace ApiDemo.Models.TokenAuthorizationModels;
 
 [TableName("tokens")]
 public class TokenData {
-    [Required][SecondaryIndex] 
+    [Required]
+    [PartitionKey]
+    [JsonPropertyName("accessToken")]
+    public string AccessToken { get; init; }
+    [Required]
+    [SecondaryIndex]
     [JsonPropertyName("ownerUUID")]
-    public required Guid OwnerUUID { get; init; }
-
-    [Required][PartitionKey]
-    [JsonPropertyName("accessToken")] 
-    public required string AccessToken { get; init; }
-
+    public Guid OwnerUUID { get; init; }
     [Required]
     [JsonPropertyName("refreshToken")]
-    public required string RefreshToken { get; init; }
+    public string RefreshToken { get; init; }
 
     [Required]
     [JsonPropertyName("expiresAt")]
@@ -26,5 +26,15 @@ public class TokenData {
 
     [Required]
     [JsonPropertyName("permissions")]
-    public required List<TokenPermissions> Permissions { get; init; }
+    [Column("permissions")]
+    public List<string> Permissions { get; init; } = new();
+
+    [JsonIgnore][Ignore]
+    public IEnumerable<TokenPermissions> PermissionEnums {
+        get => Permissions.Select(p => Enum.Parse<TokenPermissions>(p));
+        set {
+            Permissions.Clear(); 
+            Permissions.AddRange(value.Select(p => p.ToString()));
+        }
+    }
 }
