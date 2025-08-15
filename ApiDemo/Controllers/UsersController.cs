@@ -34,7 +34,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     }
     
     // POST api/Users/Avatar/{uuid} 
-    [HttpPost]
+    [HttpPut]
     [Route("Avatar/{uuid:guid}")]
     public async Task<IActionResult> UploadAvatar(Guid uuid, [FromHeader(Name = "Authorization")] string Authorization,
         IFormFile? avatar) {
