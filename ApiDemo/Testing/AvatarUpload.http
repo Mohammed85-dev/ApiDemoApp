@@ -12,3 +12,7 @@ Content-Type: image/png
 < ./avatar.png
 ------BOUNDARY--
 
+### Get avatar image
+GET {{ApiDemo_HostAddress}}/api/users/avatar/{{Uuid}}
+Content-Type: image/png
+
