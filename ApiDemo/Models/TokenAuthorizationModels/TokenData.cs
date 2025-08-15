@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
 
-namespace ApiDemo.Models.Auth.Token;
+namespace ApiDemo.Models.TokenAuthorizationModels;
 
-public class TokenDataModel {
+public class TokenData {
     [Required]
     [JsonPropertyName("ownerUUID")]
     public required Guid OwnerUUID { get; init; }

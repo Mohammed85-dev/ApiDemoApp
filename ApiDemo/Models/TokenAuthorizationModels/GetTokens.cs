@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace ApiDemo.Models;
+namespace ApiDemo.Models.TokenAuthorizationModels;
 
-public class GetTokensModel {
+public class GetTokens {
     [Required][JsonPropertyName("uuid")]
     public required Guid UUID { get; set; }
     [Required][JsonPropertyName("accessToken")]

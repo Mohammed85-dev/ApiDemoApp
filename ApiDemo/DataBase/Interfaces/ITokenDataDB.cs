@@ -1,8 +1,8 @@
-using ApiDemo.Models.Auth.Token;
+using ApiDemo.Models.TokenAuthorizationModels;
 
 namespace ApiDemo.DataBase.Interfaces;
 
 public interface ITokenDataDB {
-    public TokenDataModel getTokenData(string accessToken);
-    public void addToken(TokenDataModel token);
+    public TokenData getTokenData(string accessToken);
+    public void addToken(TokenData token);
 }

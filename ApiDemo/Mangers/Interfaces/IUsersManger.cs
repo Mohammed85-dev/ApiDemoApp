@@ -1,9 +1,12 @@
 using ApiDemo.Models;
+using ApiDemo.Models.UserModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiDemo.DataBase.Interfaces;
 
 public interface IUsersManger {
-    public int GetCount();
-    public ActionResult<PublicUserDataModel> GetPublicUserData(Guid uuid);
+    public long GetCount();
+    public void SetUserAvatar(Guid uuid, byte[] imageBlob);
+    public byte[] GetUserAvatar(Guid uuid);
+    public ActionResult<UserByUuid> GetPublicUserData(Guid uuid);
 }

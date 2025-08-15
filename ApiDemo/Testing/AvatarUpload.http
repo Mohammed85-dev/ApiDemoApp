@@ -1,0 +1,14 @@
+@ApiDemo_HostAddress = https://localhost:7222
+
+### Upload avatar image
+POST {{ApiDemo_HostAddress}}/api/users/Avatar/{{Uuid}} 
+Content-Type: multipart/form-data; boundary=----BOUNDARY
+Authorization: {{AccessToken}}
+
+------BOUNDARY
+Content-Disposition: form-data; name="avatar"; filename="avatar.png"
+Content-Type: image/png
+
+< ./avatar.png
+------BOUNDARY--
+

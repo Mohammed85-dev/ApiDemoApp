@@ -1,10 +1,10 @@
-using ApiDemo.Models.Account;
-using ApiDemo.Models.Auth.Token;
+using ApiDemo.Models.AccountModels;
+using ApiDemo.Models.TokenAuthorizationModels;
 
 namespace ApiDemo.Mangers.Interfaces;
 
 public interface ITokenAuthorizationManger {
-    public TokenDataModel GenerateUserDataRWToken(AccountDataModel accountDataModel);
+    public TokenData GenerateUserDataRWToken(Account account);
     public bool IsAuthorized(Guid uuid, string accessToken, TokenPermissions requiredPermissions, out string response);
 }
 public enum TokenPermissions {

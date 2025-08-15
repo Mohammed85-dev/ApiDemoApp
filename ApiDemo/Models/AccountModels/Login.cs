@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace ApiDemo.Models.Account {
-    public class LoginModel {
+namespace ApiDemo.Models.AccountModels {
+    public class Login {
         [JsonPropertyName("usingUsername")]
         [Required]
         public required bool UsingUsername { get; init; }

@@ -1,23 +1,22 @@
 using ApiDemo.DataBase.Interfaces;
-using ApiDemo.Models.Auth.Token;
+using ApiDemo.Models.TokenAuthorizationModels;
+using Cassandra.Data.Linq;
+using NuGet.Common;
+using ISession = Cassandra.ISession;
 
 namespace ApiDemo.DataBase.Classes;
 
 public class TokenDataDB : ITokenDataDB {
-    private readonly LinkedList<TokenDataModel> _tokens = [];
+    Table<TokenData> _tokens;
 
-    public TokenDataModel getTokenData(string accessToken) {
-        var node = _tokens.First;
-        while (node != null) {
-            if (node.Value!.AccessToken == accessToken) {
-                return node.Value;
-            }
-            node = node.Next;
-        }
-        return null!;
+    public TokenDataDB(ISession cassandraSession) {
+        _tokens = cassandraSession.GetTable<TokenData>();
+        _tokens.CreateIfNotExists();
     }
 
-    public void addToken(TokenDataModel token) {
-        _tokens.AddLast(token);
+    public TokenData getTokenData(string accessToken) => _tokens.FirstOrDefault(t => t.AccessToken == accessToken).Execute();
+
+    public void addToken(TokenData token) {
+        _tokens.Insert(token).Execute();
     }
 }

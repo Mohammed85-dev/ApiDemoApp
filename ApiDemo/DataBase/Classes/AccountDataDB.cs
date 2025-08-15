@@ -1,61 +1,40 @@
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using ApiDemo.DataBase.Interfaces;
-using ApiDemo.Models;
-using ApiDemo.Models.Account;
-using ApiDemo.TypesData;
+using ApiDemo.Models.AccountModels;
+using Cassandra.Data.Linq;
+using ISession = Cassandra.ISession;
 
 namespace ApiDemo.DataBase.Classes;
 
 public class AccountDataDB : IAccountDataDB {
-    private readonly LinkedList<AccountDataModel> _accounts = [];
+    private readonly Table<Account> _accounts;
 
-    public void AddAccount(AccountDataModel accountDataModel) {
-        _accounts.AddLast(accountDataModel);
+    public AccountDataDB(ISession cassandraSession) {
+        _accounts = new Table<Account>(cassandraSession);
+        _accounts.CreateIfNotExistsAsync();
     }
 
-    public AccountDataModel? GetAccountDataEmail(Guid userUUID) {
-        return find(data => data.UUID, userUUID);
+    public void AddAccount(Account account) => _accounts.Insert(account).Execute();
+
+    public Account? GetAccountDataEmail(Guid userUUID) => _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute();
+
+    public Account? GetAccountData(string username) => _accounts.FirstOrDefault(u => u.UserUsername == username).Execute();
+
+    public Account? GetAccountDataEmail(string accountEmail) => _accounts.FirstOrDefault(u => u.Email == accountEmail).Execute();
+
+
+    public bool TryGetAccountData(Guid userUUID, out Account account) {
+        account = GetAccountDataEmail(userUUID);
+        return account != null;
     }
 
-    public AccountDataModel? GetAccountData(string accountUserUsername) {
-        return find(data => data.UserUsername, accountUserUsername);
+    public bool TryGetAccountData(string accountUserUsername, out Account account) {
+        account = GetAccountDataEmail(accountUserUsername);
+        return account != null;
     }
 
-    public AccountDataModel? GetAccountDataEmail(string accountEmail) {
-        return find<string>(data => data.Email, accountEmail);
-    }
-
-    public bool TryGetAccountData(Guid userUUID, out AccountDataModel accountDataModel) {
-        return tryFind(data => data.UUID, userUUID, out accountDataModel);
-    }
-
-    public bool TryGetAccountData(string accountUserUsername, out AccountDataModel accountDataModel) {
-        return tryFind(data => data.UserUsername, accountUserUsername, out accountDataModel);
-    }
-
-    public bool TryGetAccountDataEmail(string accountEmail, out AccountDataModel accountDataModel) {
-        return tryFind(data => data.Email, accountEmail, out accountDataModel);
-    }
-
-    private bool tryFind<TField>(Expression<Func<AccountDataModel, TField>> fieldSelector, TField value, out AccountDataModel accountDataModel) {
-        var getter = fieldSelector.Compile();
-        foreach (var item in _accounts) {
-            if (EqualityComparer<TField>.Default.Equals(getter(item), value)) {
-                accountDataModel = item;
-                return true;
-            }
-        }
-        accountDataModel = null!;
-        return false;
-    }
-
-    private AccountDataModel? find<TField>(Expression<Func<AccountDataModel, TField>> fieldSelector, TField value) {
-        var getter = fieldSelector.Compile();
-        foreach (var item in _accounts) {
-            if (EqualityComparer<TField>.Default.Equals(getter(item), value))
-                return item;
-        }
-        return null;
+    public bool TryGetAccountDataEmail(string accountEmail, out Account account) {
+        account = GetAccountDataEmail(accountEmail);
+        return account != null;
     }
 }

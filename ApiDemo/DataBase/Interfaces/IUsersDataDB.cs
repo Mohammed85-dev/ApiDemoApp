@@ -1,13 +1,17 @@
 using ApiDemo.Models;
-using ApiDemo.Models.User;
+using ApiDemo.Models.UserModels;
 using ApiDemo.TypesData;
+using Cassandra.Data.Linq;
 
 namespace ApiDemo.DataBase.Interfaces;
 
 public interface IUsersDataDB {
-    public int GetUserCount();
-    public void AddUser(UserDataModel user);
-    public bool tryGetUser(Guid uuid, out UserDataModel userDataModel);
-    public bool tryGetUser(string username, out UserDataModel userDataModel);
-
+    public long GetUserCount();
+    public void AddUser(User user);
+    public void SetUserAvatar(Guid uuid, byte[] imageBlob);
+    public User? GetUser(Guid uuid);
+    public User? GetUser(string username);
+    public (bool success, User user) tryGetUser(Guid uuid);
+    public (bool success, User user) tryGetUser(string username);
+    public byte[] GetUserAvatar(Guid uuid);
 }

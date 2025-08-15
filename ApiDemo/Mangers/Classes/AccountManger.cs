@@ -1,23 +1,24 @@
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
 using ApiDemo.Models;
-using ApiDemo.Models.Account;
-using ApiDemo.Models.User;
+using ApiDemo.Models.AccountModels;
+using ApiDemo.Models.TokenAuthorizationModels;
+using ApiDemo.Models.UserModels;
 using ApiDemo.TypesData;
 
 namespace ApiDemo.Mangers.Classes;
 
 public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, ITokenAuthorizationManger tokenAuthorizationManger) : IAccountManger {
-    public bool PasswordRest(PasswordChangeModel passwordChange, out string response) {
-        if (!accountDB.TryGetAccountData(passwordChange.Uuid, out AccountDataModel account)) {
+    public bool PasswordRest(PasswordChange passwordChangeChange, out string response) {
+        if (!accountDB.TryGetAccountData(passwordChangeChange.Uuid, out Account account)) {
             response = "Invalid uuid";
             return false;
         }
-        if (passwordChange.OldPassword != account.Password) {
+        if (passwordChangeChange.OldPassword != account.Password) {
             response = "Incorrect old password";
             return false;
         }
-        account.Password = passwordChange.NewPassword;
+        account.Password = passwordChangeChange.NewPassword;
         response = "Changed password";
         return true;
     }
@@ -26,55 +27,55 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
         
     }*/
     
-    public TokenRequestResponseDataModel SignUpUser(SignUpModel signUpData) {
-        if (usersDB.tryGetUser(signUpData.Username, out var _) || accountDB.TryGetAccountDataEmail(signUpData.Email, out var _))
-            return new TokenRequestResponseDataModel() {
+    public TokenRequestResponse SignUpUser(SignUp signUpData) {
+        if (usersDB.tryGetUser(signUpData.Username).success || accountDB.TryGetAccountDataEmail(signUpData.Email, out var _))
+            return new TokenRequestResponse() {
                 Succeeded = false,
                 Message = "A user with that username/email already exists",
                 TokensModelData = null,
             };
         
-        AccountDataModel accountDataModel = new() {
+        Account account = new() {
             UUID = Guid.NewGuid(),
             UserUsername = signUpData.Username,
             Email = signUpData.Email,
             Password = signUpData.Password,
         };
 
-        usersDB.AddUser(new UserDataModel() { Uuid = accountDataModel.UUID, Username = accountDataModel.UserUsername });
-        accountDB.AddAccount(accountDataModel);
+        usersDB.AddUser(new User() { Uuid = account.UUID, Username = account.UserUsername });
+        accountDB.AddAccount(account);
         
-        return new TokenRequestResponseDataModel() {
+        return new TokenRequestResponse() {
             Succeeded = true,
             Message = "Created new user",
-            TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(accountDataModel),
+            TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(account),
         };
     }
 
-    public TokenRequestResponseDataModel LoginUser(LoginModel loginModel) {
-        AccountDataModel? accountData;
-        if (loginModel.UsingUsername) {
-            accountData = accountDB.GetAccountData(loginModel.Username);
+    public TokenRequestResponse LoginUser(Login login) {
+        Account? accountData;
+        if (login.UsingUsername) {
+            accountData = accountDB.GetAccountData(login.Username!);
         }
         else {
-            accountData = accountDB.GetAccountDataEmail(loginModel.Email);
+            accountData = accountDB.GetAccountDataEmail(login.Email!);
         }
         
         if (accountData == null)
-            return new TokenRequestResponseDataModel() {
+            return new TokenRequestResponse() {
                 Succeeded = false,
                 Message = "Failed to find user",
                 TokensModelData = null,
             };
 
-        if (loginModel.Password != accountData.Password)
-            return new TokenRequestResponseDataModel() {
+        if (login.Password != accountData.Password)
+            return new TokenRequestResponse() {
                 Succeeded = false,
                 Message = "Incorrect password",
                 TokensModelData = null,
             };
 
-        return new TokenRequestResponseDataModel() {
+        return new TokenRequestResponse() {
             Succeeded = true,
             Message = "Login in successful. Generated new token",
             TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(accountData),

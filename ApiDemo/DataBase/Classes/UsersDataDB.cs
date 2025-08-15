@@ -1,54 +1,47 @@
-using System.Linq.Expressions;
 using ApiDemo.DataBase.Interfaces;
-using ApiDemo.Models;
-using ApiDemo.Models.User;
-using ApiDemo.TypesData;
+using ApiDemo.Models.UserModels;
+using Cassandra;
+using Cassandra.Data.Linq;
+using Cassandra.Mapping;
+using ISession = Cassandra.ISession;
 
 namespace ApiDemo.DataBase.Classes;
 
 public class UsersDataDB : IUsersDataDB {
-    private readonly LinkedList<UserDataModel> _users = [];
+    private readonly Table<User> _users;
 
-    public int GetUserCount() => _users.Count;
-
-    public void AddUser(UserDataModel user) {
-        _users.AddLast(user);
-    }
-
-    public UserDataModel? GetUserData(string username) {
-        return find(user => user.Username, username);
-    }
-
-    public UserDataModel? GetUserData(Guid uuid) {
-        return find(user => user.Uuid, uuid);
-    }
+    private Dictionary<string, string> test = new();
     
-    public bool tryGetUser(Guid uuid, out UserDataModel userDataModel) {
-        return tryFind(user => user.Uuid, uuid, out userDataModel);
+    public UsersDataDB(ISession cassandraSession) {
+        _users = new Table<User>(cassandraSession);
+        _users.CreateIfNotExists();
     }
 
-    public bool tryGetUser(string username, out UserDataModel userDataModel) {
-        return tryFind(user => user.Username, username, out userDataModel);
+    public long GetUserCount() => _users.Count().Execute();
+    public void SetUserAvatar(Guid uuid, byte[] imageBlob) =>
+        _users.Where(u => u.Uuid == uuid)
+            .Select(u => new User() { Avatar = imageBlob })
+            .Update()
+            .Execute();
+    public void AddUser(User user) => _users.Insert(user).Execute();
+
+    public User? GetUser(Guid uuid) => _users.FirstOrDefault(u => u.Uuid == uuid).Execute();
+
+    public User? GetUser(string username) => _users.FirstOrDefault(u => u.Username == username).Execute();
+
+    public (bool success, User user) tryGetUser(Guid uuid) {
+        var user = GetUser(uuid);
+        return ((user == null)
+            ? (false, null)
+            : (true, user))!;
     }
 
-    private bool tryFind<TField>(Expression<Func<UserDataModel, TField>> fieldSelector, TField value, out UserDataModel userDataModel) {
-        var getter = fieldSelector.Compile();
-        foreach (var item in _users) {
-            if (EqualityComparer<TField>.Default.Equals(getter(item), value)) {
-                userDataModel = item;
-                return true;
-            }
-        }
-        userDataModel = null!;
-        return false;
+    public (bool success, User user) tryGetUser(string username) {
+        var user = GetUser(username);
+        return ((user == null)
+            ? (false, null)
+            : (true, user))!;
     }
 
-    private UserDataModel? find<TField>(Expression<Func<UserDataModel, TField>> fieldSelector, TField value) {
-        var getter = fieldSelector.Compile();
-        foreach (var item in _users) {
-            if (EqualityComparer<TField>.Default.Equals(getter(item), value))
-                return item;
-        }
-        return null;
-    }
+    public byte[] GetUserAvatar(Guid uuid) => _users.FirstOrDefault(u => u.Uuid == uuid).Execute().Avatar;
 }

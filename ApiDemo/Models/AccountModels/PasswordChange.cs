@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
 
-namespace ApiDemo.Models.Account {
-    public class PasswordChangeModel {
+namespace ApiDemo.Models.AccountModels {
+    public class PasswordChange {
         [JsonPropertyName("uuid")] [Required] public required Guid Uuid { get; init; }
         [JsonPropertyName("oldPassword")]
         [Required]

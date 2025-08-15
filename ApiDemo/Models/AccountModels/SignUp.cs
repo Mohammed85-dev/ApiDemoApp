@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiDemo.Core.Properties;
 
-namespace ApiDemo.Models.Account {
-    public class SignUpModel {
+namespace ApiDemo.Models.AccountModels {
+    public class SignUp {
         [JsonPropertyName("username")]
         [Required]
         [MinLength(3)]
