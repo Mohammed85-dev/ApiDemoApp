@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using ApiDemo.DataBase.Interfaces;
-using ApiDemo.Models;
-using ApiDemo.Models.Auth;
 
 
 namespace ApiDemo.Controllers {

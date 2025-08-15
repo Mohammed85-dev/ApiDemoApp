@@ -2,26 +2,26 @@ using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
 using ApiDemo.Models;
-using ApiDemo.Models.Account;
-using ApiDemo.Models.Auth.Token;
+using ApiDemo.Models.AccountModels;
+using ApiDemo.Models.TokenAuthorizationModels;
 using ApiDemo.TypesData;
 
 namespace ApiDemo.Mangers.Classes;
 
 public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accountDB, ITokenGenerator tokenGenerator) : ITokenAuthorizationManger {
-    public TokenDataModel GenerateUserDataRWToken(AccountDataModel accountDataModel) {
-        TokenDataModel tokenData = new() {
+    public TokenData GenerateUserDataRWToken(Account account) {
+        TokenData tokenData = new() {
             AccessToken = tokenGenerator.GenerateToken(),
             RefreshToken = tokenGenerator.GenerateToken(),
-            OwnerUUID = accountDataModel.UUID,
+            OwnerUUID = account.UUID,
             Permissions = [TokenPermissions.userDataRW],
         };
-        accountDataModel.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
-        accountDataModel.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
-        TokenDataModel storedTokenData = new() {
+        account.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
+        account.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
+        TokenData storedTokenData = new() {
             AccessToken = tokenGenerator.HashToken(tokenData.AccessToken),
             RefreshToken = tokenGenerator.HashToken(tokenData.RefreshToken),
-            OwnerUUID = accountDataModel.UUID,
+            OwnerUUID = account.UUID,
             Permissions = [TokenPermissions.userDataRW],
         };
         tokenDB.addToken(storedTokenData);
@@ -29,7 +29,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
     }
 
     public bool IsAuthorized(Guid uuid, string accessToken, TokenPermissions requiredPermissions, out string response) {
-        if (!accountDB.TryGetAccountData(uuid, out AccountDataModel accountData)) {
+        if (!accountDB.TryGetAccountData(uuid, out Account accountData)) {
             response = "Invalid uuid";
             return false;
         }

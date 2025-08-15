@@ -4,7 +4,6 @@
 @Password = 987654321
 
 ### Test SignUp endpoint
-# @name signup
 POST {{ApiDemo_HostAddress}}/api/Account/SignUp
 Accept: application/json
 Content-Type: application/json
@@ -16,7 +15,6 @@ Content-Type: application/json
 }
 
 ### Test Login endpoint using username
-# @name loginUser
 POST {{ApiDemo_HostAddress}}/api/Account/Login
 Accept: application/json
 Content-Type: application/json
@@ -28,7 +26,6 @@ Content-Type: application/json
 }
 
 ### Test Login endpoint using email
-# @name loginEmail
 POST {{ApiDemo_HostAddress}}/api/Account/Login
 Accept: application/json
 Content-Type: application/json

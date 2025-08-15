@@ -8,21 +8,17 @@ using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Classes;
 using ApiDemo.Mangers.Interfaces;
+using ApiDemo.Models;
 using ApiDemo.OpenApi;
+using Cassandra.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 // builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen(c => {
-    c.OperationFilter<RequiredHeadersFromAttributesFilter>();
-    c.DocumentFilter<RequiredHeadersFromAttributesFilter>();
-});
-
-addSingletons(builder.Services);
+await addSingletons(builder.Services, LoggerFactory.Create(log => log.AddConsole()).CreateLogger("StartUp"));
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowLocalhost",
@@ -56,15 +52,35 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+requiredServices(app.Services);
+
+//For a mapping file if wanted
+// MappingConfiguration.Global.Define<MyMappings>();
+
 app.Run();
 
-void addSingletons(IServiceCollection services) {
+
+return;
+
+void requiredServices(IServiceProvider services) {
+    // _ = services.GetRequiredService<IUsersManger>();
+}
+
+async Task addSingletons(IServiceCollection services, ILogger startupLogger) {
+    services.AddControllers();
+    services.AddSwaggerGen(c => {
+        c.OperationFilter<RequiredHeadersFromAttributesFilter>();
+        c.DocumentFilter<RequiredHeadersFromAttributesFilter>();
+    });
+
+    await services.AddCassandraAsync(startupLogger);
+
+    services.AddSingleton<ITokenDataDB, TokenDataDB>();
+    services.AddSingleton<IUsersDataDB, UsersDataDB>();
+    services.AddSingleton<IAccountDataDB, AccountDataDB>();
+
     services.AddSingleton<ITokenGenerator, TokenGenerator>();
     services.AddSingleton<IUsersManger, UsersManger>();
     services.AddSingleton<IAccountManger, AccountManger>();
     services.AddSingleton<ITokenAuthorizationManger, TokenAuthorizationManger>();
-    
-    services.AddSingleton<ITokenDataDB, TokenDataDB>();
-    services.AddSingleton<IUsersDataDB, UsersDataDB>();
-    services.AddSingleton<IAccountDataDB, AccountDataDB>();
 }

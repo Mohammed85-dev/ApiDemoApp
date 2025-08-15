@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
-using ApiDemo.Models;
-using ApiDemo.Models.Account;
-using ApiDemo.Models.Auth;
+using ApiDemo.Models.AccountModels;
+using ApiDemo.Models.TokenAuthorizationModels;
 
 
 namespace ApiDemo.Controllers {
@@ -13,15 +11,15 @@ namespace ApiDemo.Controllers {
         // POST api/Account/ChangePassword
         [HttpPut]
         [Route("ChangePassword")]
-        public IActionResult Put([FromHeader(Name = "Authorization")] string Authorization, [FromBody] PasswordChangeModel passwordChange) {
+        public IActionResult Put([FromHeader(Name = "Authorization")] string Authorization, [FromBody] PasswordChange passwordChangeChange) {
             if (!tokenAuthorization.IsAuthorized(
-                passwordChange.Uuid,
+                passwordChangeChange.Uuid,
                 Authorization,
                 TokenPermissions.userDataRW,
                 out string tokenAuthResponse)) {
                 return BadRequest(tokenAuthResponse);
             }
-            if (_accountData.PasswordRest(passwordChange, out string passwordRestResponse))
+            if (_accountData.PasswordRest(passwordChangeChange, out string passwordRestResponse))
                 return Ok(passwordRestResponse);
             else
                 return BadRequest(passwordRestResponse);
@@ -30,19 +28,23 @@ namespace ApiDemo.Controllers {
         // POST api/Account/Login
         [HttpPost]
         [Route("Login")]
-        public ActionResult<TokenRequestResponseDataModel> Post([FromBody] LoginModel login) {
+        public ActionResult<TokenRequestResponse> Post([FromBody] Login login) {
             var response = _accountData.LoginUser(login);
             return response.Succeeded ? Ok(response) : BadRequest(response);
         }
-
+        
+        //METHODS
+        //GET
+        //POST [PUT, DELETE]
+        
         // POST api/Account/SignUp
         /// <summary>
         /// 
         /// </summary>
         /// <param name="signUp"></param>
-        [HttpPost]
+        [HttpPost] 
         [Route("SignUp")]
-        public ActionResult<TokenRequestResponseDataModel> Post([FromBody] SignUpModel signUp) {
+        public ActionResult<TokenRequestResponse> Post([FromBody] SignUp signUp) {
             var response = _accountData.SignUpUser(signUp);
             return response.Succeeded ? Ok(response) : BadRequest(response);
         }

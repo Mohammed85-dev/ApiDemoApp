@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace ApiDemo.Models;
+namespace ApiDemo.Models.TokenAuthorizationModels;
 
-public class VerifyRefreshTokenModel {
+public class VerifyRefreshToken {
     [Required] [JsonPropertyName("uuid")] public required Guid Uuid { get; set; }
     [Required]
     [JsonPropertyName("refreshToken")]
