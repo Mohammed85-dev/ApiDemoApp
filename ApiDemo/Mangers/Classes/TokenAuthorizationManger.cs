@@ -14,7 +14,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             AccessToken = tokenGenerator.GenerateToken(),
             RefreshToken = tokenGenerator.GenerateToken(),
             OwnerUUID = account.UUID,
-            Permissions = [TokenPermissions.userDataRW],
+            PermissionEnums = [TokenPermissions.userDataRW],
         };
         account.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
         account.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
@@ -22,7 +22,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             AccessToken = tokenGenerator.HashToken(tokenData.AccessToken),
             RefreshToken = tokenGenerator.HashToken(tokenData.RefreshToken),
             OwnerUUID = account.UUID,
-            Permissions = [TokenPermissions.userDataRW],
+            PermissionEnums = [TokenPermissions.userDataRW],
         };
         tokenDB.addToken(storedTokenData);
         return tokenData;
@@ -41,7 +41,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             response = "Invalid token";
             return false;
         }
-        if (!tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)).Permissions.Contains(requiredPermissions)) {
+        if (!tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)).PermissionEnums.Contains(requiredPermissions)) {
             response = "Invalid permission";
             return false;
         }

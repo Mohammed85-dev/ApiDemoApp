@@ -29,8 +29,8 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
 
     [HttpGet]
     [Route("Avatar/{uuid:guid}")]
-    public async Task<IActionResult> GetAvatar(Guid uuid) {
-        throw  new NotImplementedException();
+    public IActionResult GetAvatar(Guid uuid) {
+        return File(_users.GetUserAvatar(uuid), "image/png");
     }
     
     // POST api/Users/Avatar/{uuid} 
