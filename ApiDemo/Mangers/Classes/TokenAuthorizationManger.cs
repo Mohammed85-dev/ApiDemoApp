@@ -1,10 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using ApiDemo.Core.Tokens;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
-using ApiDemo.Models;
 using ApiDemo.Models.AccountModels;
 using ApiDemo.Models.TokenAuthorizationModels;
-using ApiDemo.TypesData;
 
 namespace ApiDemo.Mangers.Classes;
 
@@ -24,29 +23,39 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             OwnerUUID = account.UUID,
             PermissionEnums = [TokenPermissions.userDataRW],
         };
-        tokenDB.addToken(storedTokenData);
+        tokenDB.AddToken(storedTokenData);
         return tokenData;
     }
 
     public bool IsAuthorized(Guid uuid, string accessToken, TokenPermissions requiredPermissions, out string response) {
-        if (!accountDB.TryGetAccountData(uuid, out Account accountData)) {
+        if (!accountDB.TryGetAccountData(uuid, out var accountData)) {
             response = "Invalid uuid";
             return false;
         }
         if (!accountData.HashedUserAccessTokens.Contains(tokenGenerator.HashToken(accessToken))) {
             response = "Invalid access token";
         }
-
-        if (tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)) == null) {
+        var tokenData = tokenDB.GetTokenData(tokenGenerator.HashToken(accessToken));
+        if (tokenData == null) {
             response = "Invalid token";
             return false;
         }
-        if (!tokenDB.getTokenData(tokenGenerator.HashToken(accessToken)).PermissionEnums.Contains(requiredPermissions)) {
+        else if (!tokenData.PermissionEnums.Contains(requiredPermissions)) {
             response = "Invalid permission";
             return false;
         }
 
         response = "Authorized";
+        return true;
+    }
+
+    public bool TryGetTokenData(string token, [MaybeNullWhen(false)] out TokenData tokenData, out string response) {
+        tokenData = tokenDB.GetTokenData(token); 
+        if (tokenData == null) {
+            response = "Token not found";
+            return false;
+        }
+        response = "Token successfully retrieved";
         return true;
     }
 

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ApiDemo.Models;
 using ApiDemo.Models.AccountModels;
 using ApiDemo.TypesData;
@@ -9,7 +10,7 @@ public interface IAccountDataDB {
     public Account? GetAccountDataEmail(Guid userUUID);
     public Account? GetAccountData(string username);
     public Account? GetAccountDataEmail(string accountEmail);
-    public bool TryGetAccountData(Guid userUUID, out Account account);
-    public bool TryGetAccountData(string accountUserUsername, out Account account);
-    public bool TryGetAccountDataEmail(string accountEmail, out Account account);
+    public bool TryGetAccountData(Guid userUUID, [MaybeNullWhen(false)] out Account account);
+    public bool TryGetAccountData(string accountUserUsername,[MaybeNullWhen(false)] out Account account);
+    public bool TryGetAccountDataEmail(string accountEmail,[MaybeNullWhen(false)] out Account account);
 }

@@ -10,7 +10,7 @@ namespace ApiDemo.Mangers.Classes;
 
 public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, ITokenAuthorizationManger tokenAuthorizationManger) : IAccountManger {
     public bool PasswordRest(PasswordChange passwordChangeChange, out string response) {
-        if (!accountDB.TryGetAccountData(passwordChangeChange.Uuid, out Account account)) {
+        if (!accountDB.TryGetAccountData(passwordChangeChange.Uuid, out var account)) {
             response = "Invalid uuid";
             return false;
         }
@@ -24,9 +24,9 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }
 
     /*public bool PasswordRest(PasswordRestModel passwordRest, out string response) {
-        
+
     }*/
-    
+
     public TokenRequestResponse SignUpUser(SignUp signUpData) {
         if (usersDB.tryGetUser(signUpData.Username).success || accountDB.TryGetAccountDataEmail(signUpData.Email, out var _))
             return new TokenRequestResponse() {
@@ -34,7 +34,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
                 Message = "A user with that username/email already exists",
                 TokensModelData = null,
             };
-        
+
         Account account = new() {
             UUID = Guid.NewGuid(),
             UserUsername = signUpData.Username,
@@ -44,7 +44,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
 
         usersDB.AddUser(new User() { Uuid = account.UUID, Username = account.UserUsername });
         accountDB.AddAccount(account);
-        
+
         return new TokenRequestResponse() {
             Succeeded = true,
             Message = "Created new user",
@@ -60,7 +60,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
         else {
             accountData = accountDB.GetAccountDataEmail(login.Email!);
         }
-        
+
         if (accountData == null)
             return new TokenRequestResponse() {
                 Succeeded = false,

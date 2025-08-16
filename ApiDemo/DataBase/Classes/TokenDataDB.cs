@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Models.TokenAuthorizationModels;
 using Cassandra.Data.Linq;
@@ -13,9 +14,9 @@ public class TokenDataDB : ITokenDataDB {
         _tokens.CreateIfNotExists();
     }
 
-    public TokenData getTokenData(string accessToken) => _tokens.FirstOrDefault(t => t.AccessToken == accessToken).Execute();
+    public TokenData? GetTokenData(string accessToken) => _tokens.FirstOrDefault(t => t.AccessToken == accessToken).Execute();
 
-    public void addToken(TokenData token) {
+    public void AddToken(TokenData token) {
         _tokens.Insert(token).Execute();
     }
 }

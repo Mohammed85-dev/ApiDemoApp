@@ -11,14 +11,14 @@ public class TokenData {
     [Required]
     [PartitionKey]
     [JsonPropertyName("accessToken")]
-    public string AccessToken { get; init; }
+    public string AccessToken { get; init; } = null!;
     [Required]
     [SecondaryIndex]
     [JsonPropertyName("ownerUUID")]
     public Guid OwnerUUID { get; init; }
     [Required]
     [JsonPropertyName("refreshToken")]
-    public string RefreshToken { get; init; }
+    public string RefreshToken { get; init; } =  null!;
 
     [Required]
     [JsonPropertyName("expiresAt")]

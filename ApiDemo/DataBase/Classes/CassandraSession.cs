@@ -12,13 +12,13 @@ public static class CassandraSession {
             // .WithCredentials("cassandra", "cassandra") // Default user/password
             .Build();
 
-        ISession session = null;
-            while (session == null){
+        ISession session = null!;
+        while (session == null) {
             try {
                 session = await cluster.ConnectAsync();
                 break;
             }
-            catch (Exception ex) {
+            catch {
                 _logger.LogError("Failed to connect to cluster");
             }
         }

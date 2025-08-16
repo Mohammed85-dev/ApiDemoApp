@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+using System.Diagnostics.CodeAnalysis;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Models.AccountModels;
 using Cassandra.Data.Linq;
@@ -16,24 +16,24 @@ public class AccountDataDB : IAccountDataDB {
 
     public void AddAccount(Account account) => _accounts.Insert(account).Execute();
 
-    public Account? GetAccountDataEmail(Guid userUUID) => _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute();
+    public Account? GetAccountDataEmail(Guid userUUID) => _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute()!;
 
     public Account? GetAccountData(string username) => _accounts.FirstOrDefault(u => u.UserUsername == username).Execute();
 
     public Account? GetAccountDataEmail(string accountEmail) => _accounts.FirstOrDefault(u => u.Email == accountEmail).Execute();
 
-
-    public bool TryGetAccountData(Guid userUUID, out Account account) {
+    public bool TryGetAccountData(Guid userUUID,[MaybeNullWhen(false)] out Account account) {
         account = GetAccountDataEmail(userUUID);
         return account != null;
     }
 
-    public bool TryGetAccountData(string accountUserUsername, out Account account) {
+    
+    public bool TryGetAccountData(string accountUserUsername,[MaybeNullWhen(false)] out Account account) {
         account = GetAccountDataEmail(accountUserUsername);
         return account != null;
     }
 
-    public bool TryGetAccountDataEmail(string accountEmail, out Account account) {
+    public bool TryGetAccountDataEmail(string accountEmail,[MaybeNullWhen(false)] out Account account) {
         account = GetAccountDataEmail(accountEmail);
         return account != null;
     }

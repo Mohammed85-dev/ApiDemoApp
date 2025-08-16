@@ -9,6 +9,6 @@ public class User {
     [PartitionKey]
     public Guid Uuid { get; init; }
     [SecondaryIndex]
-    public string Username { get; init; }
-    public byte[] Avatar { get; set; } = default!;
+    public string Username { get; init; } = default!;
+    public byte[] Avatar { get; init; } = null!;
 } 
