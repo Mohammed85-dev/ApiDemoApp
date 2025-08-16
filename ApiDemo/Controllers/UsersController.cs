@@ -1,6 +1,5 @@
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
-using ApiDemo.Models;
 using ApiDemo.Models.UserModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +31,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     public IActionResult GetAvatar(Guid uuid) {
         return File(_users.GetUserAvatar(uuid), "image/png");
     }
-    
+
     // POST api/Users/Avatar/{uuid} 
     [HttpPut]
     [Route("Avatar/{uuid:guid}")]
@@ -44,7 +43,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
             return BadRequest("No file uploaded");
         using var ms = new MemoryStream();
         await avatar.CopyToAsync(ms);
-        byte[] avatarBytes = ms.ToArray();
+        var avatarBytes = ms.ToArray();
 
         _users.SetUserAvatar(uuid, avatarBytes);
         return Ok("Avatar uploaded.");

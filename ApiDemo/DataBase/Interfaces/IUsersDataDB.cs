@@ -1,7 +1,4 @@
-using ApiDemo.Models;
 using ApiDemo.Models.UserModels;
-using ApiDemo.TypesData;
-using Cassandra.Data.Linq;
 
 namespace ApiDemo.DataBase.Interfaces;
 

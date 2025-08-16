@@ -14,26 +14,34 @@ public class AccountDataDB : IAccountDataDB {
         _accounts.CreateIfNotExistsAsync();
     }
 
-    public void AddAccount(Account account) => _accounts.Insert(account).Execute();
+    public void AddAccount(Account account) {
+        _accounts.Insert(account).Execute();
+    }
 
-    public Account? GetAccountDataEmail(Guid userUUID) => _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute()!;
+    public Account? GetAccountDataEmail(Guid userUUID) {
+        return _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute()!;
+    }
 
-    public Account? GetAccountData(string username) => _accounts.FirstOrDefault(u => u.UserUsername == username).Execute();
+    public Account? GetAccountData(string username) {
+        return _accounts.FirstOrDefault(u => u.UserUsername == username).Execute();
+    }
 
-    public Account? GetAccountDataEmail(string accountEmail) => _accounts.FirstOrDefault(u => u.Email == accountEmail).Execute();
+    public Account? GetAccountDataEmail(string accountEmail) {
+        return _accounts.FirstOrDefault(u => u.Email == accountEmail).Execute();
+    }
 
-    public bool TryGetAccountData(Guid userUUID,[MaybeNullWhen(false)] out Account account) {
+    public bool TryGetAccountData(Guid userUUID, [MaybeNullWhen(false)] out Account account) {
         account = GetAccountDataEmail(userUUID);
         return account != null;
     }
 
-    
-    public bool TryGetAccountData(string accountUserUsername,[MaybeNullWhen(false)] out Account account) {
+
+    public bool TryGetAccountData(string accountUserUsername, [MaybeNullWhen(false)] out Account account) {
         account = GetAccountDataEmail(accountUserUsername);
         return account != null;
     }
 
-    public bool TryGetAccountDataEmail(string accountEmail,[MaybeNullWhen(false)] out Account account) {
+    public bool TryGetAccountDataEmail(string accountEmail, [MaybeNullWhen(false)] out Account account) {
         account = GetAccountDataEmail(accountEmail);
         return account != null;
     }

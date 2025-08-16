@@ -1,10 +1,8 @@
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
-using ApiDemo.Models;
 using ApiDemo.Models.AccountModels;
 using ApiDemo.Models.TokenAuthorizationModels;
 using ApiDemo.Models.UserModels;
-using ApiDemo.TypesData;
 
 namespace ApiDemo.Mangers.Classes;
 
@@ -28,8 +26,8 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }*/
 
     public TokenRequestResponse SignUpUser(SignUp signUpData) {
-        if (usersDB.tryGetUser(signUpData.Username).success || accountDB.TryGetAccountDataEmail(signUpData.Email, out var _))
-            return new TokenRequestResponse() {
+        if (usersDB.tryGetUser(signUpData.Username).success || accountDB.TryGetAccountDataEmail(signUpData.Email, out _))
+            return new TokenRequestResponse {
                 Succeeded = false,
                 Message = "A user with that username/email already exists",
                 TokensModelData = null,
@@ -42,10 +40,10 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
             Password = signUpData.Password,
         };
 
-        usersDB.AddUser(new User() { Uuid = account.UUID, Username = account.UserUsername });
+        usersDB.AddUser(new User { Uuid = account.UUID, Username = account.UserUsername, });
         accountDB.AddAccount(account);
 
-        return new TokenRequestResponse() {
+        return new TokenRequestResponse {
             Succeeded = true,
             Message = "Created new user",
             TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(account),
@@ -53,29 +51,26 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }
 
     public TokenRequestResponse LoginUser(Login login) {
-        Account? accountData;
-        if (login.UsingUsername) {
-            accountData = accountDB.GetAccountData(login.Username!);
-        }
-        else {
-            accountData = accountDB.GetAccountDataEmail(login.Email!);
-        }
+        Account? accountData =
+            (login.UsingUsername)
+                ? accountDB.GetAccountData(login.Username!)
+                : accountDB.GetAccountDataEmail(login.Email!);
 
         if (accountData == null)
-            return new TokenRequestResponse() {
+            return new TokenRequestResponse {
                 Succeeded = false,
                 Message = "Failed to find user",
                 TokensModelData = null,
             };
 
         if (login.Password != accountData.Password)
-            return new TokenRequestResponse() {
+            return new TokenRequestResponse {
                 Succeeded = false,
                 Message = "Incorrect password",
                 TokensModelData = null,
             };
 
-        return new TokenRequestResponse() {
+        return new TokenRequestResponse {
             Succeeded = true,
             Message = "Login in successful. Generated new token",
             TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(accountData),

@@ -4,17 +4,17 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-      <UserSecretsId>aa072d04-8c77-4791-8c72-195a43c3c960</UserSecretsId>
-  </PropertyGroup>
+        <UserSecretsId>aa072d04-8c77-4791-8c72-195a43c3c960</UserSecretsId>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CassandraCSharpDriver" Version="3.22.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.4-beta1" />
-        <PackageReference Include="PostSharp" Version="2025.1.5" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+        <PackageReference Include="CassandraCSharpDriver" Version="3.22.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4-beta1"/>
+        <PackageReference Include="PostSharp" Version="2025.1.5"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3"/>
+        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1"/>
     </ItemGroup>
 
 </Project>

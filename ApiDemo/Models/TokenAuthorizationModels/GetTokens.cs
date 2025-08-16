@@ -4,10 +4,11 @@ using System.Text.Json.Serialization;
 namespace ApiDemo.Models.TokenAuthorizationModels;
 
 public class GetTokens {
-    [Required][JsonPropertyName("uuid")]
-    public required Guid UUID { get; set; }
-    [Required][JsonPropertyName("accessToken")]
+    [Required][JsonPropertyName("uuid")] public required Guid UUID { get; set; }
+    [Required]
+    [JsonPropertyName("accessToken")]
     public required string AccessToken { get; set; }
-    [Required][JsonPropertyName("refreshToken")]
+    [Required]
+    [JsonPropertyName("refreshToken")]
     public required string RefreshToken { get; set; }
 }

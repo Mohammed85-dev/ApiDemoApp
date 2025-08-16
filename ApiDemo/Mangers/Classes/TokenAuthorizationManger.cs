@@ -13,7 +13,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             AccessToken = tokenGenerator.GenerateToken(),
             RefreshToken = tokenGenerator.GenerateToken(),
             OwnerUUID = account.UUID,
-            PermissionEnums = [TokenPermissions.userDataRW],
+            PermissionEnums = [TokenPermissions.userDataRW,],
         };
         account.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
         account.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
@@ -21,7 +21,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             AccessToken = tokenGenerator.HashToken(tokenData.AccessToken),
             RefreshToken = tokenGenerator.HashToken(tokenData.RefreshToken),
             OwnerUUID = account.UUID,
-            PermissionEnums = [TokenPermissions.userDataRW],
+            PermissionEnums = [TokenPermissions.userDataRW,],
         };
         tokenDB.AddToken(storedTokenData);
         return tokenData;
@@ -32,15 +32,13 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             response = "Invalid uuid";
             return false;
         }
-        if (!accountData.HashedUserAccessTokens.Contains(tokenGenerator.HashToken(accessToken))) {
-            response = "Invalid access token";
-        }
+        if (!accountData.HashedUserAccessTokens.Contains(tokenGenerator.HashToken(accessToken))) response = "Invalid access token";
         var tokenData = tokenDB.GetTokenData(tokenGenerator.HashToken(accessToken));
         if (tokenData == null) {
             response = "Invalid token";
             return false;
         }
-        else if (!tokenData.PermissionEnums.Contains(requiredPermissions)) {
+        if (!tokenData.PermissionEnums.Contains(requiredPermissions)) {
             response = "Invalid permission";
             return false;
         }
@@ -50,7 +48,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
     }
 
     public bool TryGetTokenData(string token, [MaybeNullWhen(false)] out TokenData tokenData, out string response) {
-        tokenData = tokenDB.GetTokenData(token); 
+        tokenData = tokenDB.GetTokenData(token);
         if (tokenData == null) {
             response = "Token not found";
             return false;

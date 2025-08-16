@@ -18,7 +18,7 @@ public class TokenData {
     public Guid OwnerUUID { get; init; }
     [Required]
     [JsonPropertyName("refreshToken")]
-    public string RefreshToken { get; init; } =  null!;
+    public string RefreshToken { get; init; } = null!;
 
     [Required]
     [JsonPropertyName("expiresAt")]
@@ -29,11 +29,12 @@ public class TokenData {
     [Column("permissions")]
     public List<string> Permissions { get; init; } = new();
 
-    [JsonIgnore][Ignore]
+    [JsonIgnore]
+    [Ignore]
     public IEnumerable<TokenPermissions> PermissionEnums {
         get => Permissions.Select(p => Enum.Parse<TokenPermissions>(p));
         set {
-            Permissions.Clear(); 
+            Permissions.Clear();
             Permissions.AddRange(value.Select(p => p.ToString()));
         }
     }

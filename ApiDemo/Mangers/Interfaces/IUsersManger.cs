@@ -1,4 +1,3 @@
-using ApiDemo.Models;
 using ApiDemo.Models.UserModels;
 using Microsoft.AspNetCore.Mvc;
 

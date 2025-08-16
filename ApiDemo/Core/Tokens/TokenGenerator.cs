@@ -1,11 +1,10 @@
-using System;
 using System.Security.Cryptography;
 using System.Text;
 using ApiDemo.Core.Tokens;
 
 public class TokenGenerator : ITokenGenerator {
     /// <summary>
-    /// Generates a cryptographically secure random token.
+    ///     Generates a cryptographically secure random token.
     /// </summary>
     /// <returns>URL-safe string (Base64 without +/=)</returns>
     public string GenerateToken() {
@@ -13,7 +12,7 @@ public class TokenGenerator : ITokenGenerator {
         const int bytes = 32;
         var data = new byte[bytes];
         RandomNumberGenerator.Fill(data); // CSPRNG
-        string b64 = Convert.ToBase64String(data);
+        var b64 = Convert.ToBase64String(data);
         return b64.Replace('+', '-').Replace('/', '_').TrimEnd('=');
     }
 

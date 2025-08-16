@@ -8,9 +8,7 @@ using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Classes;
 using ApiDemo.Mangers.Interfaces;
-using ApiDemo.Models;
 using ApiDemo.OpenApi;
-using Cassandra.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 

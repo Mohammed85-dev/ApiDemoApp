@@ -10,5 +10,5 @@ public interface ITokenAuthorizationManger {
     public bool TryGetTokenData(string token, [MaybeNullWhen(false)] out TokenData tokenData, out string response);
 }
 public enum TokenPermissions {
-    userDataRW
+    userDataRW,
 }

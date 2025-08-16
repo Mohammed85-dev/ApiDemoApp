@@ -13,7 +13,7 @@ public static class CassandraSession {
             .Build();
 
         ISession session = null!;
-        while (session == null) {
+        while (session == null)
             try {
                 session = await cluster.ConnectAsync();
                 break;
@@ -21,7 +21,6 @@ public static class CassandraSession {
             catch {
                 _logger.LogError("Failed to connect to cluster");
             }
-        }
         //Delete preexisting data
         // session.DeleteKeyspaceIfExists("my_keyspace");
         //Create KeySpace

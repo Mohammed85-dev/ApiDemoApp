@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace ApiDemo.TypesData;
 // public class Email([EmailAddress] string email) {
 //     private string _email = email;

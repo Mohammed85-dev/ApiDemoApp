@@ -1,7 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using ApiDemo.Models;
 using ApiDemo.Models.AccountModels;
-using ApiDemo.TypesData;
 
 namespace ApiDemo.DataBase.Interfaces;
 
@@ -11,6 +9,6 @@ public interface IAccountDataDB {
     public Account? GetAccountData(string username);
     public Account? GetAccountDataEmail(string accountEmail);
     public bool TryGetAccountData(Guid userUUID, [MaybeNullWhen(false)] out Account account);
-    public bool TryGetAccountData(string accountUserUsername,[MaybeNullWhen(false)] out Account account);
-    public bool TryGetAccountDataEmail(string accountEmail,[MaybeNullWhen(false)] out Account account);
+    public bool TryGetAccountData(string accountUserUsername, [MaybeNullWhen(false)] out Account account);
+    public bool TryGetAccountDataEmail(string accountEmail, [MaybeNullWhen(false)] out Account account);
 }

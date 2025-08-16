@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using ApiDemo.Models.TokenAuthorizationModels;
 
 namespace ApiDemo.DataBase.Interfaces;
