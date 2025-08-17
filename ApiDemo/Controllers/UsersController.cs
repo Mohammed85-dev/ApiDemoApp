@@ -26,6 +26,8 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
         return Ok(_users.GetPublicUserData(uuid));
     }
 
+    //[HttpGet("{fileName}")]
+    // [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, "image/jpegV")]
     [HttpGet]
     [Route("Avatar/{uuid:guid}")]
     public IActionResult GetAvatar(Guid uuid) {
