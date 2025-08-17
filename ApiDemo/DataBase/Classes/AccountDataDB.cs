@@ -19,7 +19,7 @@ public class AccountDataDB : IAccountDataDB {
     }
 
     public Account? GetAccountDataEmail(Guid userUUID) {
-        return _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute()!;
+        return _accounts.FirstOrDefault(u => u.UUID == userUUID).Execute();
     }
 
     public Account? GetAccountData(string username) {

@@ -1,7 +1,7 @@
 @ApiDemo_HostAddress = https://localhost:7222
 
 ### Upload avatar image
-POST {{ApiDemo_HostAddress}}/api/users/Avatar/{{Uuid}}
+PUT {{ApiDemo_HostAddress}}/api/users/Avatar/{{Uuid}}
 Content-Type: multipart/form-data; boundary=----BOUNDARY
 Authorization: {{AccessToken}}
 
