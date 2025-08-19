@@ -1,42 +1,42 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Test SignUp API</title>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Upload Demo</title>
 </head>
+
 <body>
-<h2>SignUp API Test</h2>
-<button id="sendRequest">Send POST Request</button>
+<div class="layout">
+    <form
+            class="area"
+            id="upload"
+            method="put"
+            enctype="multipart/form-data"
+    >
+        <label for="images">Choose images to upload</label>
 
-<pre id="result"></pre>
+        <input
+                type="file"
+                id="images"
+                name="images"
+                accept=".jpg, .jpeg, .png"
+        />
 
-<script>
-    document.getElementById('sendRequest').addEventListener('click', async () => {
-        const url = "https://localhost:7222/api/Users/Auth/SignUp";
+        <button id="submit" type="submit">Upload</button>
+    </form>
 
-        const payload = {
-            "username": "asdasd",
-            "email": "mohammed@hot.com",
-            "password": "1asd45f15asd1f51asd6f1"
-        };
+    <div id="imagesToUpload" class="area">
+        <span>No images selected yet.</span>
+    </div>
 
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Accept": "text/plain",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
+    <div id="uploadedImages" class="area">
+        <span>No images uploaded yet.</span>
+    </div>
+</div>
 
-            const text = await response.text();
-            document.getElementById('result').textContent =
-                `Status: ${response.status}\nResponse:\n${text}`;
-        } catch (error) {
-            document.getElementById('result').textContent = `Error: ${error}`;
-        }
-    });
-</script>
+<script type="module" src="main.js"></script>
 </body>
 </html>

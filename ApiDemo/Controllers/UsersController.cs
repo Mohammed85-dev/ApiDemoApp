@@ -21,8 +21,9 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     }
 
     // GET api/Users/{uuid}
-    [HttpGet("{uuid:guid}")]
-    public ActionResult<UserByUuid> Get(Guid uuid) {
+    [HttpGet]
+    [Route("{uuid:guid}")]
+    public ActionResult<UserByUuid> Get( Guid uuid) {
         return Ok(_users.GetPublicUserData(uuid));
     }
 
@@ -38,13 +39,13 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     [HttpPut]
     [Route("Avatar/{uuid:guid}")]
     public async Task<IActionResult> UploadAvatar(Guid uuid, [FromHeader(Name = "Authorization")] string Authorization,
-        IFormFile? avatar) {
+        IFormFile? file) {
         if (!_auth.IsAuthorized(uuid, Authorization, TokenPermissions.userDataRW, out var response))
             return Unauthorized(response);
-        if (avatar == null || avatar.Length == 0)
+        if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
         using var ms = new MemoryStream();
-        await avatar.CopyToAsync(ms);
+        await file.CopyToAsync(ms);
         var avatarBytes = ms.ToArray();
 
         _users.SetUserAvatar(uuid, avatarBytes);

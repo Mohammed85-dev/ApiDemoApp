@@ -6,7 +6,7 @@ Content-Type: multipart/form-data; boundary=----BOUNDARY
 Authorization: {{AccessToken}}
 
 ------BOUNDARY
-Content-Disposition: form-data; name="avatar"; filename="avatar.png"
+Content-Disposition: form-data; name="file"; filename="file.png"
 Content-Type: image/png
 
 < ./avatar.png
