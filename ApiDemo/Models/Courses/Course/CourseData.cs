@@ -16,6 +16,7 @@ public class CourseData {
     [JsonPropertyName("createdOn")] public DateTime Created { get; set; }
     [JsonPropertyName("lastedUpdateOn")] public DateTime LastUpdateDate { get; set; } = DateTime.Now;
     [JsonPropertyName("chapters")][Ignore] public List<CourseChapter.CourseChapter> Chapters { get; set; } = [];
-    [JsonIgnore] public Guid videoFileId { get; set; } = Guid.Empty;
+    [JsonPropertyName("pictureFileId")] public Guid PictureFileId { get; set; }
+    [JsonPropertyName("videoFileId")] public Guid videoFileId { get; set; } = Guid.Empty;
     [JsonPropertyName("permissions")] public List<string> RequiredPermissions { get; set; } = new();
 }

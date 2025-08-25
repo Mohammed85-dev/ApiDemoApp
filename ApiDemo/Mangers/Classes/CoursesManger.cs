@@ -20,7 +20,7 @@ public class CoursesManger(IFileManger fileManger, ICoursesDataDB coursesData, I
         var ucid = Guid.NewGuid();
         var requiredPermission = ucid.ToString();
         coursesData.CreateCourse(ucid, course);
-        if (!auth.GiveCustomAuthorizationLevelZero(uuid, PresetTokenPermissions.permissionsLevelZero, requiredPermission, out var response1)) {
+        if (!auth.GiveCustomAuthorization(uuid, PresetTokenPermissions.permissionsLevelZero, requiredPermission, out var response1)) {
             response = response1;
             return Guid.Empty;
         }
@@ -55,12 +55,17 @@ public class CoursesManger(IFileManger fileManger, ICoursesDataDB coursesData, I
         courseChapters.DeleteCourseChapter(courseId, chapterId);
     }
 
-    public byte[]? GetPicture(Guid courseId) {
-        throw new InvalidOperationException();
+    public Stream GetPicture(Guid courseId) {
+        return null;
     }
 
-    public void SetPicture(Guid courseId, byte[] picture) {
-        throw new InvalidOperationException();
+    public async Task SetPicture(Guid courseId, Stream picture) {
+        Guid pictureFileId = await fileManger.UploadFile(
+            coursesData.GetCourse(courseId).OwnerUserId,
+            picture,
+            "randomAvatar",
+            FileManger.FileType.UserAvatar);
+        coursesData.UpdateCourse(courseId, new CourseData() { PictureFileId = pictureFileId, });
     }
 
     public Stream GetVideo(Guid courseId) {

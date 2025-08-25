@@ -13,8 +13,8 @@ public interface ICoursesManger {
     public void AddCourseChapter(Guid courseId, CourseChapter chapter);
     public void UpdateCourseChapter(Guid courseId, int chapterId, CourseChapter chapter);
     public void DeleteCourseChapter(Guid courseId, int chapterId);
-    public byte[]? GetPicture(Guid courseId);
-    public void SetPicture(Guid courseId, byte[] picture);
+    public Stream GetPicture(Guid courseId);
+    public Task SetPicture(Guid courseId, Stream picture);
     public Stream GetVideo(Guid courseId);
     public Task SetVideo(Guid courseId, Stream video);
     public void AddTag(Guid courseId, string tag);

@@ -11,11 +11,13 @@ public class FileManger : IFileManger {
     }
     private readonly IFileServer _fileServer;
     private readonly IFileInfoDB _filesInfo;
+    private readonly ITokenAuthorizationManger _tokenAuthorization;
     private readonly string _rootPath;
 
-    public FileManger(IFileInfoDB filesInfo, IFileServer fileServer) {
+    public FileManger(ITokenAuthorizationManger tokenAuthorizationManger, IFileInfoDB filesInfo, IFileServer fileServer) {
         _filesInfo = filesInfo;
         _fileServer = fileServer;
+        _tokenAuthorization = tokenAuthorizationManger;
         _rootPath = Path.Combine("C:", "FileServerFiles");
         _fileServer.DeleteFolder(_rootPath);
     }
@@ -45,7 +47,9 @@ public class FileManger : IFileManger {
         info.OwnerUserId = OwnerUserId;
         info.Path = path;
         info.UniqueRequiredPermission = [fileName,];
-
+        if (!_tokenAuthorization.GiveCustomAuthorization(OwnerUserId, PresetTokenPermissions.permissionsLevelZero, fileName, out var response)) {
+            throw new Exception(response);
+        }
         await _fileServer.UploadFile(info.Path, info.FileName, stream);
         return _filesInfo.AddFileInfo(info);
     }

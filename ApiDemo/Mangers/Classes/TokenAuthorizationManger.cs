@@ -21,7 +21,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
         return true;
     }
 
-    public bool GiveCustomAuthorizationLevelZero(Guid uuid, PresetTokenPermissions presetTokenPermission, string permission, out string response) {
+    public bool GiveCustomAuthorization(Guid uuid, PresetTokenPermissions presetTokenPermission, string permission, out string response) {
         if (!accountDB.TryGetAccountData(uuid, out var account)) {
             response = "Invalid UUID";
             return false;

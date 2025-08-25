@@ -19,8 +19,8 @@ public class FileServer : IFileServer {
         File.Delete(completePath);
     }
 
-    public Stream GetFile(string completeFilePath) {
-        return File.OpenRead(completeFilePath);
+    public Stream  GetFile(string completeFilePath) {
+        return new FileStream(completeFilePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
     }
 
     public Stream GetFile(string filePath, string fileName) {

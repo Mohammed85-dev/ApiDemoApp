@@ -15,7 +15,6 @@ public class UsersManger(IFileManger fileManger, IUsersDataDB _usersDB) : IUsers
         _usersDB.SetUserAvatarFileId(uuid,
             avatarFileId
         );
-        fileManger.GetRequiredPermission(avatarFileId).ForEach(rp => fileManger.RemoveFilePermission(avatarFileId, rp));
     }
 
     public Stream GetUserAvatar(Guid uuid) {

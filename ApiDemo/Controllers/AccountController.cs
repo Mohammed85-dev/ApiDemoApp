@@ -45,32 +45,4 @@ public class AccountController(IAccountManger _accountData, ITokenAuthorizationM
         var response = _accountData.SignUpUser(signUp);
         return response.Succeeded ? Ok(response) : BadRequest(response);
     }
-
-    /*//Post api/Users/Auth/GetTokens
-    [HttpPost]
-    [Route("GetTokens")]
-    public ActionResult<TokenRequestResponseDataModel> Post([FromBody] GetTokensModel getTokens) {
-        TokenRequestResponseDataModel tokenRequestResponseData = _accountDataManger.getTokens(getTokens);
-        if (!tokenRequestResponseData.Succeeded)
-            return BadRequest(tokenRequestResponseData);
-        return Ok(tokenRequestResponseData.TokensModelData);
-    }
-
-    //Post api/Users/Auth/VerifyAccessToken
-    [HttpPost]
-    [Route("VerifyAccessToken")]
-    public IActionResult Post([FromBody] VerifyAccessTokenModel verifyAccessToken) {
-        if (_accountDataManger.VerifyAccessToken(verifyAccessToken, out var response))
-            return Ok(response);
-        return BadRequest();
-    }
-
-    //Post api/Users/Auth/VerifyRefreshToken
-    [HttpPost]
-    [Route("VerifyRefreshToken")]
-    public IActionResult Post([FromBody] VerifyRefreshTokenModel verifyRefreshToken) {
-        if (_accountDataManger.VerifyRefreshToken(verifyRefreshToken, out var response))
-            return Ok(response);
-        return BadRequest();
-    }*/
 }
