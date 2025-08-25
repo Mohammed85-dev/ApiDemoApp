@@ -30,7 +30,9 @@ public class CoursesController(ICoursesManger courses, ITokenAuthorizationManger
     //api/Courses/Picture/{ucid}
     [HttpPut]
     [Route("Picture/{ucid:guid}")]
-    public async Task<IActionResult> PUTPicture(Guid ucid, [FromHeader(Name = "Authorization")] string Authorization, IFormFile file) {
+    public async Task<IActionResult> PUTPicture(Guid ucid, [FromHeader(Name = "Authorization")] string Authorization, IFormFile? file) {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded");
         if (!courses.TryGetCourse(ucid, out var data))
             return NotFound();
         foreach (string courseRequiredPermission in data.RequiredPermissions) {
@@ -54,6 +56,8 @@ public class CoursesController(ICoursesManger courses, ITokenAuthorizationManger
     [DisableRequestSizeLimit]
     [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
     public async Task<IActionResult> PUTVideo(Guid ucid, [FromHeader(Name = "Authorization")] string Authorization, IFormFile? file) {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded");
         if (!courses.TryGetCourse(ucid, out var courseData)) return NotFound();
         foreach (var rp in courseData.RequiredPermissions) {
             if (tokenAuthorization.IsAuthorized(Authorization, rp, out var response)) break;

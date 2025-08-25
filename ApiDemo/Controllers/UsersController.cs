@@ -32,7 +32,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     [HttpGet]
     [Route("Avatar/{uuid:guid}")]
     public IActionResult GetAvatar(Guid uuid) {
-        return File(_users.GetUserAvatar(uuid), "image/png");
+        return File(_users.GetUserAvatar(uuid) , "image/png");
     }
 
     // POST api/Users/Avatar/{uuid} 
@@ -44,9 +44,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
             return Unauthorized(response);
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
-        using var ms = new MemoryStream();
-
-        await _users.SetUserAvatar(uuid, ms);
+        await _users.SetUserAvatar(uuid, file.OpenReadStream());
         return Ok("Avatar uploaded.");
     }
 
