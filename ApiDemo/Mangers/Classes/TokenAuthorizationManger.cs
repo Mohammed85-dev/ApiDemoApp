@@ -1,33 +1,91 @@
 using System.Diagnostics.CodeAnalysis;
 using ApiDemo.Core.Tokens;
+using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
 using ApiDemo.Models.AccountModels;
 using ApiDemo.Models.TokenAuthorizationModels;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiDemo.Mangers.Classes;
 
 public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accountDB, ITokenGenerator tokenGenerator) : ITokenAuthorizationManger {
-    public TokenData GenerateUserDataRWToken(Account account) {
+    public bool IsAuthorized(string accessToken, string permission, out string response) {
+        if (!tokenDB.TryGetTokenData(tokenGenerator.HashToken(accessToken), out var tokenData)) {
+            response = "Invalid token";
+            return false;
+        }
+        if (!tokenData.customPermissions.Contains(permission)) {
+            response = "Token lacks Permission";
+            return false;
+        }
+        response = "Authorized";
+        return true;
+    }
+
+    public bool GiveCustomAuthorizationLevelZero(Guid uuid, PresetTokenPermissions presetTokenPermission, string permission, out string response) {
+        if (!accountDB.TryGetAccountData(uuid, out Account? account)) {
+            response = "Invalid UUID";
+            return false;
+        }
+        List<string> accessToken = [];
+        List<TokenData> tokenData = [];
+        foreach (TokenData data in tokenDB.GetTokenDataList(uuid)) {
+            var token = data;
+            if (!token.PresetPermissionEnums.Contains(presetTokenPermission)) continue;
+            token.customPermissions.Add(permission);
+            accessToken.Add(data.AccessToken);
+            tokenData.Add(token);
+        }
+        tokenDB.UpdateToken(accessToken.ToArray(), tokenData.ToArray());
+        response = "Added custom authorization level zero permission [" + permission + "]";
+        return true;
+    }
+
+    public bool IsAuthorized(Guid uuid, string accessToken, string permission, out string response) {
+        if (!accountDB.TryGetAccountData(uuid, out var accountData)) {
+            response = "Invalid uuid";
+            return false;
+        }
+        if (!accountData.HashedUserAccessTokens.Contains(tokenGenerator.HashToken(accessToken))) response = "Invalid access token";
+        TokenData tokenData = tokenDB.GetTokenData(tokenGenerator.HashToken(accessToken));
+        if (tokenData == null) {
+            response = "Invalid accessToken";
+            return false;
+        }
+        if (!tokenData.customPermissions.Contains(permission)) {
+            response = "Unauthorized";
+            return false;
+        }
+
+        response = "Authorized";
+        return true;
+    }
+
+    public TokenData GeneratePermissionLevelZeroToken(Account account) {
         TokenData tokenData = new() {
             AccessToken = tokenGenerator.GenerateToken(),
             RefreshToken = tokenGenerator.GenerateToken(),
             OwnerUUID = account.UUID,
-            PermissionEnums = [TokenPermissions.userDataRW,],
+            PresetPermissionEnums = [PresetTokenPermissions.permissionsLevelZero,],
         };
-        account.HashedUserAccessTokens.Add(tokenGenerator.HashToken(tokenData.AccessToken));
-        account.HashedRefreshTokens.Add(tokenGenerator.HashToken(tokenData.RefreshToken));
         TokenData storedTokenData = new() {
             AccessToken = tokenGenerator.HashToken(tokenData.AccessToken),
             RefreshToken = tokenGenerator.HashToken(tokenData.RefreshToken),
             OwnerUUID = account.UUID,
-            PermissionEnums = [TokenPermissions.userDataRW,],
+            PresetPermissionEnums = [PresetTokenPermissions.permissionsLevelZero,],
         };
+        var accountUpdated = new Account {
+            HashedUserAccessTokens = { storedTokenData.AccessToken },
+            HashedRefreshTokens = { storedTokenData.RefreshToken },
+        };
+        accountDB.UpdateAccount(account.UUID, accountUpdated);
         tokenDB.AddToken(storedTokenData);
         return tokenData;
     }
 
-    public bool IsAuthorized(Guid uuid, string accessToken, TokenPermissions requiredPermissions, out string response) {
+    public bool IsAuthorized(Guid uuid, string accessToken, PresetTokenPermissions requiredPermissions, out string response) {
         if (!accountDB.TryGetAccountData(uuid, out var accountData)) {
             response = "Invalid uuid";
             return false;
@@ -35,11 +93,11 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
         if (!accountData.HashedUserAccessTokens.Contains(tokenGenerator.HashToken(accessToken))) response = "Invalid access token";
         var tokenData = tokenDB.GetTokenData(tokenGenerator.HashToken(accessToken));
         if (tokenData == null) {
-            response = "Invalid token";
+            response = "Invalid accessToken";
             return false;
         }
-        if (!tokenData.PermissionEnums.Contains(requiredPermissions)) {
-            response = "Invalid permission";
+        if (!tokenData.PresetPermissionEnums.Contains(requiredPermissions)) {
+            response = "Unauthorized";
             return false;
         }
 

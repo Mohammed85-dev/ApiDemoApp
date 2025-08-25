@@ -5,6 +5,7 @@ namespace ApiDemo.DataBase.Interfaces;
 
 public interface IAccountDataDB {
     public void AddAccount(Account account);
+    public void UpdateAccount(Guid uuid, Account account);
     public Account? GetAccountDataEmail(Guid userUUID);
     public Account? GetAccountData(string username);
     public Account? GetAccountDataEmail(string accountEmail);

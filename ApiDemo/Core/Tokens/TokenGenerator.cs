@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
-using ApiDemo.Core.Tokens;
+
+namespace ApiDemo.Core.Tokens;
 
 public class TokenGenerator : ITokenGenerator {
     /// <summary>

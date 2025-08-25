@@ -25,17 +25,22 @@ public class TokenData {
     public DateTime ExpiresAT { get; init; } = DateTime.MaxValue;
 
     [Required]
-    [JsonPropertyName("permissions")]
-    [Column("permissions")]
-    public List<string> Permissions { get; init; } = new();
+    [JsonPropertyName("customPermissions")]
+    [Column("customPermissions")]
+    public List<string> customPermissions { get; init; } = [];
+    
+    [Required]
+    [JsonPropertyName("presetPermissions")]
+    [Column("presetPermissions")]
+    public List<string> PresetPermissions { get; init; } = [];
 
     [JsonIgnore]
     [Ignore]
-    public IEnumerable<TokenPermissions> PermissionEnums {
-        get => Permissions.Select(p => Enum.Parse<TokenPermissions>(p));
+    public IEnumerable<PresetTokenPermissions> PresetPermissionEnums {
+        get => PresetPermissions.Select(p => Enum.Parse<PresetTokenPermissions>(p));
         set {
-            Permissions.Clear();
-            Permissions.AddRange(value.Select(p => p.ToString()));
+            PresetPermissions.Clear();
+            PresetPermissions.AddRange(value.Select(p => p.ToString()));
         }
     }
 }

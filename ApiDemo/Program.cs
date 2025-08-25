@@ -4,6 +4,7 @@
 */
 
 using ApiDemo.Core.Tokens;
+using ApiDemo.DataBase.CassandraConfiguration;
 using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Classes;
@@ -50,6 +51,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseStaticFiles();
+
 requiredServices(app.Services);
 
 //For a mapping file if wanted
@@ -73,12 +76,19 @@ async Task addSingletons(IServiceCollection services, ILogger startupLogger) {
 
     await services.AddCassandraAsync(startupLogger);
 
+    services.AddSingleton<IFileInfoDB, FileInfoDB>();
     services.AddSingleton<ITokenDataDB, TokenDataDB>();
     services.AddSingleton<IUsersDataDB, UsersDataDB>();
     services.AddSingleton<IAccountDataDB, AccountDataDB>();
+    services.AddSingleton<ICoursesDataDB, CoursesDataDB>();
+    services.AddSingleton<ICourseChaptersDB, CourseChaptersDB>();
+    services.AddSingleton<IPlayListDataDB, PlayListDataDB>();
+    services.AddSingleton<IFileServer, FileServer>();
 
+    services.AddSingleton<IFileManger, FileManger>();
     services.AddSingleton<ITokenGenerator, TokenGenerator>();
+    services.AddSingleton<ITokenAuthorizationManger, TokenAuthorizationManger>();
+    services.AddSingleton<ICoursesManger, CoursesManger>();
     services.AddSingleton<IUsersManger, UsersManger>();
     services.AddSingleton<IAccountManger, AccountManger>();
-    services.AddSingleton<ITokenAuthorizationManger, TokenAuthorizationManger>();
 }

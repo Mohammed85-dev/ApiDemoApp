@@ -1,4 +1,22 @@
+using ApiDemo.Models.Courses;
+using ApiDemo.Models.Courses.Course;
+using ApiDemo.Models.Courses.CourseChapter;
+
 namespace ApiDemo.Mangers.Interfaces;
 
 public interface ICoursesManger {
+    public CourseData GetCourse(Guid courseId);
+    public Guid CreateCourse(Guid uuid, CreateCourse course, out string response);
+    public void UpdateCourse(Guid courseId, CourseData course);
+    public void DeleteCourse(Guid courseId);
+    public IEnumerable<CourseChapter> GetCourseChapters(Guid courseId);
+    public void AddCourseChapter(Guid courseId, CourseChapter chapter);
+    public void UpdateCourseChapter(Guid courseId, int chapterId, CourseChapter chapter);
+    public void DeleteCourseChapter(Guid courseId, int chapterId);
+    public byte[]? GetPicture(Guid courseId);
+    public void SetPicture(Guid courseId, byte[] picture);
+    public Stream GetVideo(Guid courseId);
+    public void SetVideo(Guid courseId, Stream video);
+    public void AddTag(Guid courseId, string tag);
+    public void DeleteTag(Guid courseId, string tag);
 }

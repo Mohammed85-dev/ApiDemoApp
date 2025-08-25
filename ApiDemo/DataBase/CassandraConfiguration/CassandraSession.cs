@@ -1,8 +1,9 @@
+using ApiDemo.Models.AccountModels;
 using Cassandra;
 using Cassandra.Mapping;
 using ISession = Cassandra.ISession;
 
-namespace ApiDemo.DataBase.Classes;
+namespace ApiDemo.DataBase.CassandraConfiguration;
 
 public static class CassandraSession {
     public static async Task AddCassandraAsync(this IServiceCollection services, ILogger _logger) {
@@ -21,14 +22,21 @@ public static class CassandraSession {
             catch {
                 _logger.LogError("Failed to connect to cluster");
             }
+
+
         //Delete preexisting data
-        // session.DeleteKeyspaceIfExists("my_keyspace");
+        session.DeleteKeyspaceIfExists("my_keyspace");
         //Create KeySpace
         session.CreateKeyspaceIfNotExists("my_keyspace");
 
         // 2. Switch to keyspace
         session.ChangeKeyspace("my_keyspace");
         var mapper = new Mapper(session);
+        
+        // session.UserDefinedTypes.Define(
+        //     UdtMap.For<Account>().);
+
+        // MappingConfiguration.Global.Define<MyMapping>();
 
         services.AddSingleton<ICluster>(cluster);
         services.AddSingleton<ISession>(session);

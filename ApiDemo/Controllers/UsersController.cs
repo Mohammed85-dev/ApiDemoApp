@@ -40,7 +40,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     [Route("Avatar/{uuid:guid}")]
     public async Task<IActionResult> UploadAvatar(Guid uuid, [FromHeader(Name = "Authorization")] string Authorization,
         IFormFile? file) {
-        if (!_auth.IsAuthorized(uuid, Authorization, TokenPermissions.userDataRW, out var response))
+        if (!_auth.IsAuthorized(uuid, Authorization, PresetTokenPermissions.permissionsLevelZero, out var response))
             return Unauthorized(response);
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");

@@ -1,0 +1,40 @@
+@ApiDemo_HostAddress = https://localhost:7222
+### Create Course
+POST {{ApiDemo_HostAddress}}/api/Courses/Create
+Content-Type: application/json
+Authorization: {{AccessToken}}
+
+{
+  "uuid": "{{Uuid}}",
+  "name": "string",
+  "description": "string",
+  "tags": [
+    "string"
+  ]
+}
+> {%
+    // Extract fields from the JSON response into global variables
+    client.global.set("Ucid", response.body);
+%}
+
+### Upload upload video
+PUT {{ApiDemo_HostAddress}}/api/Courses/Upload/{{Ucid}}
+Content-Type: multipart/form-data; boundary=----BOUNDARY
+Authorization: {{AccessToken}}
+
+------BOUNDARY
+Content-Disposition: form-data; name="file"; filename="file.png"
+Content-Type: video/mp4
+
+< ./testVideo.mp4
+------BOUNDARY--
+
+### Get Course Data
+GET {{ApiDemo_HostAddress}}/api/Courses/{{Ucid}}
+Authorization: {{AccessToken}}
+Content-Type: application/json
+
+### Get video file 
+GET {{ApiDemo_HostAddress}}/api/Courses/Video/{{Ucid}}
+Authorization: {{AccessToken}}
+Content-Type: video/mp4

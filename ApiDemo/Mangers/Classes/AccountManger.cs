@@ -16,7 +16,9 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
             response = "Incorrect old password";
             return false;
         }
-        account.Password = passwordChangeChange.NewPassword;
+        accountDB.UpdateAccount(passwordChangeChange.Uuid, new Account {
+            Password = passwordChangeChange.NewPassword,
+        });
         response = "Changed password";
         return true;
     }
@@ -46,7 +48,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
         return new TokenRequestResponse {
             Succeeded = true,
             Message = "Created new user",
-            TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(account),
+            TokensModelData = tokenAuthorizationManger.GeneratePermissionLevelZeroToken(account),
         };
     }
 
@@ -73,7 +75,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
         return new TokenRequestResponse {
             Succeeded = true,
             Message = "Login in successful. Generated new token",
-            TokensModelData = tokenAuthorizationManger.GenerateUserDataRWToken(accountData),
+            TokensModelData = tokenAuthorizationManger.GeneratePermissionLevelZeroToken(accountData),
         };
     }
 }

@@ -15,7 +15,7 @@ public class AccountController(IAccountManger _accountData, ITokenAuthorizationM
         if (!tokenAuthorization.IsAuthorized(
             passwordChangeChange.Uuid,
             Authorization,
-            TokenPermissions.userDataRW,
+            PresetTokenPermissions.permissionsLevelZero,
             out var tokenAuthResponse))
             return BadRequest(tokenAuthResponse);
         if (_accountData.PasswordRest(passwordChangeChange, out var passwordRestResponse))
