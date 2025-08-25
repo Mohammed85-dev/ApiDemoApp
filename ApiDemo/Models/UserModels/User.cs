@@ -5,8 +5,7 @@ namespace ApiDemo.Models.UserModels;
 
 [TableName("users")]
 public class User {
-    [PartitionKey] public Guid Uuid { get; init; }
+    [PartitionKey] public Guid UnqiueUserId { get; init; }
     [SecondaryIndex] public string Username { get; init; } = default!;
-    //todo add default image
-    public byte[] Avatar { get; init; } = null!;
+    public Guid AvatarFileId { get; init; } = Guid.Empty;
 }

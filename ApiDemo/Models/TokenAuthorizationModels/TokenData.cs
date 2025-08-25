@@ -28,7 +28,7 @@ public class TokenData {
     [JsonPropertyName("customPermissions")]
     [Column("customPermissions")]
     public List<string> customPermissions { get; init; } = [];
-    
+
     [Required]
     [JsonPropertyName("presetPermissions")]
     [Column("presetPermissions")]

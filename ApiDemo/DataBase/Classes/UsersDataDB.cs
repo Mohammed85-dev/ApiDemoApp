@@ -19,9 +19,9 @@ public class UsersDataDB : IUsersDataDB {
         return _users.Count().Execute();
     }
 
-    public void SetUserAvatar(Guid uuid, byte[] imageBlob) {
-        _users.Where(u => u.Uuid == uuid)
-            .Select(u => new User { Avatar = imageBlob, })
+    public void SetUserAvatarFileId(Guid uuid, Guid avatarFileId) {
+        _users.Where(u => u.UnqiueUserId == uuid)
+            .Select(u => new User { AvatarFileId = avatarFileId, })
             .Update()
             .Execute();
     }
@@ -31,13 +31,14 @@ public class UsersDataDB : IUsersDataDB {
     }
 
     public User? GetUser(Guid uuid) {
-        return _users.FirstOrDefault(u => u.Uuid == uuid).Execute();
+        return _users.FirstOrDefault(u => u.UnqiueUserId == uuid).Execute();
     }
 
     public User? GetUser(string username) {
         return _users.FirstOrDefault(u => u.Username == username).Execute();
     }
 
+    //todo DO NOT LEAVE THIS LIKE THIS
     public (bool success, User user) tryGetUser(Guid uuid) {
         var user = GetUser(uuid);
         return (user == null
@@ -52,7 +53,7 @@ public class UsersDataDB : IUsersDataDB {
             : (true, user))!;
     }
 
-    public byte[] GetUserAvatar(Guid uuid) {
-        return _users.FirstOrDefault(u => u.Uuid == uuid).Execute().Avatar;
+    public Guid GetUserAvatarFileId(Guid uuid) {
+        return _users.FirstOrDefault(u => u.UnqiueUserId == uuid).Execute().AvatarFileId;
     }
 }

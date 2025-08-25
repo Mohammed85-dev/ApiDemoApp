@@ -5,19 +5,19 @@ using ApiDemo.TypesData;
 namespace ApiDemo.Mangers.Classes;
 
 public class FileManger : IFileManger {
-    private readonly string _rootPath;
-    private readonly IFileInfoDB _filesInfo;
+    public enum FileType {
+        courseVideo,
+        UserAvatar,
+    }
     private readonly IFileServer _fileServer;
+    private readonly IFileInfoDB _filesInfo;
+    private readonly string _rootPath;
 
     public FileManger(IFileInfoDB filesInfo, IFileServer fileServer) {
         _filesInfo = filesInfo;
         _fileServer = fileServer;
         _rootPath = Path.Combine("C:", "FileServerFiles");
         _fileServer.DeleteFolder(_rootPath);
-    }
-
-    public enum FileType {
-        courseVideo
     }
 
     public List<string> GetRequiredPermission(Guid fileId) {
@@ -36,17 +36,17 @@ public class FileManger : IFileManger {
         _fileServer.DeleteFile(_filesInfo.GetCompleteFilePath(fileId));
     }
 
-    public Guid UploadFile(Guid OwnerUserId, Stream stream, string orignalFileName, FileType fileType) {
+    public async Task<Guid> UploadFile(Guid OwnerUserId, Stream stream, string orignalFileName, FileType fileType) {
         var fileName = OwnerUserId + orignalFileName + fileType + stream.Length;
-        string path = Path.Combine(_rootPath, fileType.ToString());
+        var path = Path.Combine(_rootPath, fileType.ToString());
         Directory.CreateDirectory(path);
         var info = new DBFileInfo();
         info.FileName = fileName;
         info.OwnerUserId = OwnerUserId;
         info.Path = path;
-        info.UniqueRequiredPermission = [fileName];
+        info.UniqueRequiredPermission = [fileName,];
 
-        _fileServer.UploadFile(info.Path, info.FileName, stream);
+        await _fileServer.UploadFile(info.Path, info.FileName, stream);
         return _filesInfo.AddFileInfo(info);
     }
 

@@ -1,4 +1,3 @@
-using ApiDemo.Models.Courses;
 using ApiDemo.Models.Courses.CourseChapter;
 
 namespace ApiDemo.DataBase.Interfaces;

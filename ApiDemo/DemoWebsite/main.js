@@ -1,4 +1,3 @@
-
 const setupInput = () => {
     const input = document.getElementById('images');
     input.addEventListener('change', handleChange)
@@ -59,7 +58,7 @@ const uploadFile = async (file) => {
         {
             method: "PUT",
             headers: {
-                "Authorization" : "n6stqYsvtrvs4-IsIN3ZogxBnxwcmEhRQ3pIO8um-vM"
+                "Authorization": "n6stqYsvtrvs4-IsIN3ZogxBnxwcmEhRQ3pIO8um-vM"
             },
             body: formData,
         },
@@ -73,7 +72,7 @@ const uploadFile = async (file) => {
 const clearUploadedImages = () => {
     const uploadedImages = document.getElementById(
         "uploadedImages",
-    ) 
+    )
 
     uploadedImages.innerHTML = "No images uploaded yet."
 }
@@ -89,8 +88,8 @@ const setLoading = () => {
 }
 
 const clearLoading = () => {
-    const button = document.getElementById("submit") 
-    const input = document.getElementById("images") 
+    const button = document.getElementById("submit")
+    const input = document.getElementById("images")
 
     button.removeAttribute("disabled")
     button.innerText = "Upload"
@@ -118,7 +117,7 @@ const setUploadedImages = (images) => {
 }
 
 const clearForm = () => {
-    const form = document.getElementById("upload") 
+    const form = document.getElementById("upload")
 
     form.reset()
 }

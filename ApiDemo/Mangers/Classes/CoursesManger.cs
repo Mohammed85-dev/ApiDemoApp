@@ -1,7 +1,6 @@
-using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
-using ApiDemo.Models.Courses;
 using ApiDemo.Models.Courses.Course;
 using ApiDemo.Models.Courses.CourseChapter;
 
@@ -12,17 +11,22 @@ public class CoursesManger(IFileManger fileManger, ICoursesDataDB coursesData, I
     private Guid ownerUserId;
     private Guid videoFileId;
 
-    public CourseData GetCourse(Guid courseId) {
-        return coursesData.GetCourse(courseId);
+    public bool TryGetCourse(Guid courseId, [NotNullWhen(true)] out CourseData? course) {
+        course = coursesData.GetCourse(courseId);
+        return course != null;
     }
 
     public Guid CreateCourse(Guid uuid, CreateCourse course, out string response) {
-        Guid ucid = Guid.NewGuid();
-        if (!auth.GiveCustomAuthorizationLevelZero(uuid, PresetTokenPermissions.permissionsLevelZero, ucid.ToString(), out var response1)) {
+        var ucid = Guid.NewGuid();
+        var requiredPermission = ucid.ToString();
+        coursesData.CreateCourse(ucid, course);
+        if (!auth.GiveCustomAuthorizationLevelZero(uuid, PresetTokenPermissions.permissionsLevelZero, requiredPermission, out var response1)) {
             response = response1;
             return Guid.Empty;
         }
-        coursesData.CreateCourse(ucid, course);
+        coursesData.UpdateCourse(ucid, new CourseData {
+            RequiredPermissions = { requiredPermission, },
+        });
         response = string.Empty;
         return ucid;
     }
@@ -64,10 +68,10 @@ public class CoursesManger(IFileManger fileManger, ICoursesDataDB coursesData, I
         return fileManger.GetFileStream(videoFileId);
     }
 
-    public void SetVideo(Guid courseId, Stream video) {
+    public async Task SetVideo(Guid courseId, Stream video) {
         ownerUserId = coursesData.GetCourse(courseId).OwnerUserId;
-        Guid fileId = fileManger.UploadFile(ownerUserId, video, "randomSHIt", FileManger.FileType.courseVideo);
-        coursesData.UpdateCourse(courseId, new CourseData() {
+        var fileId = await fileManger.UploadFile(ownerUserId, video, "randomSHIt", FileManger.FileType.courseVideo);
+        coursesData.UpdateCourse(courseId, new CourseData {
             videoFileId = fileId,
         });
     }

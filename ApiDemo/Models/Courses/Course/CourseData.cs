@@ -8,7 +8,7 @@ namespace ApiDemo.Models.Courses.Course;
 public class CourseData {
     [JsonPropertyName("ucid")]
     [PartitionKey]
-    public Guid Ucid { get; set; }
+    public Guid UniqueCourseId { get; set; }
     public Guid OwnerUserId { get; set; }
     [JsonPropertyName("name")] public string Name { get; set; } = string.Empty;
     [JsonPropertyName("description")] public string Description { get; set; } = string.Empty;
@@ -17,4 +17,5 @@ public class CourseData {
     [JsonPropertyName("lastedUpdateOn")] public DateTime LastUpdateDate { get; set; } = DateTime.Now;
     [JsonPropertyName("chapters")][Ignore] public List<CourseChapter.CourseChapter> Chapters { get; set; } = [];
     [JsonIgnore] public Guid videoFileId { get; set; } = Guid.Empty;
+    [JsonPropertyName("permissions")] public List<string> RequiredPermissions { get; set; } = new();
 }

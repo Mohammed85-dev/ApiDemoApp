@@ -3,8 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="/vite.svg" rel="icon" type="image/svg+xml"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Upload Demo</title>
 </head>
 
@@ -12,31 +12,31 @@
 <div class="layout">
     <form
             class="area"
+            enctype="multipart/form-data"
             id="upload"
             method="put"
-            enctype="multipart/form-data"
     >
         <label for="images">Choose images to upload</label>
 
         <input
-                type="file"
+                accept=".jpg, .jpeg, .png"
                 id="images"
                 name="images"
-                accept=".jpg, .jpeg, .png"
+                type="file"
         />
 
         <button id="submit" type="submit">Upload</button>
     </form>
 
-    <div id="imagesToUpload" class="area">
+    <div class="area" id="imagesToUpload">
         <span>No images selected yet.</span>
     </div>
 
-    <div id="uploadedImages" class="area">
+    <div class="area" id="uploadedImages">
         <span>No images uploaded yet.</span>
     </div>
 </div>
 
-<script type="module" src="main.js"></script>
+<script src="main.js" type="module"></script>
 </body>
 </html>

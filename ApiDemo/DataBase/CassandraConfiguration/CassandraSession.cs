@@ -1,4 +1,3 @@
-using ApiDemo.Models.AccountModels;
 using Cassandra;
 using Cassandra.Mapping;
 using ISession = Cassandra.ISession;
@@ -32,7 +31,7 @@ public static class CassandraSession {
         // 2. Switch to keyspace
         session.ChangeKeyspace("my_keyspace");
         var mapper = new Mapper(session);
-        
+
         // session.UserDefinedTypes.Define(
         //     UdtMap.For<Account>().);
 

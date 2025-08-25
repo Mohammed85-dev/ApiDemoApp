@@ -1,5 +1,4 @@
 using ApiDemo.DataBase.Interfaces;
-using ApiDemo.Models.Courses;
 using ApiDemo.Models.Courses.PlayList;
 using Cassandra.Data.Linq;
 using ISession = Cassandra.ISession;
@@ -14,16 +13,12 @@ public class PlayListDataDB : IPlayListDataDB {
         _playlistData.CreateIfNotExists();
     }
 
-    private CqlQuery<PlaylistData> pldata(Guid playListId) {
-        return _playlistData.Where(p => p.uniquePlaylistId == playListId);
-    }
-
     public PlaylistData GetPlayList(Guid playListId) {
         return pldata(playListId).FirstOrDefault().Execute();
     }
 
     public void CreatePlayList(CreatePlayList playList) {
-        _playlistData.Insert(new PlaylistData() {
+        _playlistData.Insert(new PlaylistData {
             Name = playList.Name,
             Description = playList.Description,
             Tags = playList.Tags,
@@ -44,34 +39,38 @@ public class PlayListDataDB : IPlayListDataDB {
     }
 
     public void AddPlayListCourse(Guid playListId, Guid courseId) {
-        pldata(playListId).Select(p => new PlaylistData() {
-            Courses = new Dictionary<int, Guid> { { p.Courses.Count, courseId } }
+        pldata(playListId).Select(p => new PlaylistData {
+            Courses = new Dictionary<int, Guid> { { p.Courses.Count, courseId }, },
         }).Update().Execute();
     }
 
     public void DeletePlayListCourse(Guid playListId, int courseId) {
-        pldata(playListId).Select(p => new PlaylistData() {
+        pldata(playListId).Select(p => new PlaylistData {
             Courses = p.Courses.SubstractAssign(courseId),
         }).Update().Execute();
     }
 
-    public byte[]? GetPicture(Guid playListId) {
-        return pldata(playListId).Select(p => p.Picture).Execute().FirstOrDefault();
+    public Guid GetPictureFileId(Guid playListId) {
+        return pldata(playListId).Select(p => p.PictureFileId).Execute().FirstOrDefault();
     }
 
-    public void SetPicture(Guid playListId, byte[] picture) {
-        pldata(playListId).Select(p => new PlaylistData() {
-            Picture = picture,
+    public void SetPictureFileId(Guid playListId, Guid pictureFileId) {
+        pldata(playListId).Select(p => new PlaylistData {
+            PictureFileId = pictureFileId,
         }).Update().Execute();
     }
 
     public void AddTag(Guid playListId, string tag) {
-        pldata(playListId).Select(p => new PlaylistData() {
-            Tags = { tag },
+        pldata(playListId).Select(p => new PlaylistData {
+            Tags = { tag, },
         }).Update().Execute();
     }
 
     public void DeleteTag(Guid playListId, string tag) {
         pldata(playListId).Select(p => p.Tags.Remove(tag)).Update().Execute();
+    }
+
+    private CqlQuery<PlaylistData> pldata(Guid playListId) {
+        return _playlistData.Where(p => p.uniquePlaylistId == playListId);
     }
 }

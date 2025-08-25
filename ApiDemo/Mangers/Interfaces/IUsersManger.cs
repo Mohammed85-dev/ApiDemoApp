@@ -5,7 +5,7 @@ namespace ApiDemo.DataBase.Interfaces;
 
 public interface IUsersManger {
     public long GetCount();
-    public void SetUserAvatar(Guid uuid, byte[] imageBlob);
-    public byte[] GetUserAvatar(Guid uuid);
+    public Task SetUserAvatar(Guid uuid, Stream avatar);
+    public Stream GetUserAvatar(Guid uuid);
     public ActionResult<UserByUuid> GetPublicUserData(Guid uuid);
 }

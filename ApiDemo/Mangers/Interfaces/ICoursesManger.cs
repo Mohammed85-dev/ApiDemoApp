@@ -1,11 +1,11 @@
-using ApiDemo.Models.Courses;
+using System.Diagnostics.CodeAnalysis;
 using ApiDemo.Models.Courses.Course;
 using ApiDemo.Models.Courses.CourseChapter;
 
 namespace ApiDemo.Mangers.Interfaces;
 
 public interface ICoursesManger {
-    public CourseData GetCourse(Guid courseId);
+    public bool TryGetCourse(Guid courseId, [NotNullWhen(true)] out CourseData? course);
     public Guid CreateCourse(Guid uuid, CreateCourse course, out string response);
     public void UpdateCourse(Guid courseId, CourseData course);
     public void DeleteCourse(Guid courseId);
@@ -16,7 +16,7 @@ public interface ICoursesManger {
     public byte[]? GetPicture(Guid courseId);
     public void SetPicture(Guid courseId, byte[] picture);
     public Stream GetVideo(Guid courseId);
-    public void SetVideo(Guid courseId, Stream video);
+    public Task SetVideo(Guid courseId, Stream video);
     public void AddTag(Guid courseId, string tag);
     public void DeleteTag(Guid courseId, string tag);
 }

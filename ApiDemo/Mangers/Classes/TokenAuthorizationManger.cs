@@ -1,12 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using ApiDemo.Core.Tokens;
-using ApiDemo.DataBase.Classes;
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.Mangers.Interfaces;
 using ApiDemo.Models.AccountModels;
 using ApiDemo.Models.TokenAuthorizationModels;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ApiDemo.Mangers.Classes;
 
@@ -25,13 +22,13 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
     }
 
     public bool GiveCustomAuthorizationLevelZero(Guid uuid, PresetTokenPermissions presetTokenPermission, string permission, out string response) {
-        if (!accountDB.TryGetAccountData(uuid, out Account? account)) {
+        if (!accountDB.TryGetAccountData(uuid, out var account)) {
             response = "Invalid UUID";
             return false;
         }
         List<string> accessToken = [];
         List<TokenData> tokenData = [];
-        foreach (TokenData data in tokenDB.GetTokenDataList(uuid)) {
+        foreach (var data in tokenDB.GetTokenDataList(uuid)) {
             var token = data;
             if (!token.PresetPermissionEnums.Contains(presetTokenPermission)) continue;
             token.customPermissions.Add(permission);
@@ -49,7 +46,7 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             return false;
         }
         if (!accountData.HashedUserAccessTokens.Contains(tokenGenerator.HashToken(accessToken))) response = "Invalid access token";
-        TokenData tokenData = tokenDB.GetTokenData(tokenGenerator.HashToken(accessToken));
+        var tokenData = tokenDB.GetTokenData(tokenGenerator.HashToken(accessToken));
         if (tokenData == null) {
             response = "Invalid accessToken";
             return false;
@@ -77,8 +74,8 @@ public class TokenAuthorizationManger(ITokenDataDB tokenDB, IAccountDataDB accou
             PresetPermissionEnums = [PresetTokenPermissions.permissionsLevelZero,],
         };
         var accountUpdated = new Account {
-            HashedUserAccessTokens = { storedTokenData.AccessToken },
-            HashedRefreshTokens = { storedTokenData.RefreshToken },
+            HashedUserAccessTokens = { storedTokenData.AccessToken, },
+            HashedRefreshTokens = { storedTokenData.RefreshToken, },
         };
         accountDB.UpdateAccount(account.UUID, accountUpdated);
         tokenDB.AddToken(storedTokenData);

@@ -23,7 +23,7 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
     // GET api/Users/{uuid}
     [HttpGet]
     [Route("{uuid:guid}")]
-    public ActionResult<UserByUuid> Get( Guid uuid) {
+    public ActionResult<UserByUuid> Get(Guid uuid) {
         return Ok(_users.GetPublicUserData(uuid));
     }
 
@@ -45,10 +45,8 @@ public class UsersController(IUsersManger _users, ITokenAuthorizationManger _aut
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
         using var ms = new MemoryStream();
-        await file.CopyToAsync(ms);
-        var avatarBytes = ms.ToArray();
 
-        _users.SetUserAvatar(uuid, avatarBytes);
+        await _users.SetUserAvatar(uuid, ms);
         return Ok("Avatar uploaded.");
     }
 

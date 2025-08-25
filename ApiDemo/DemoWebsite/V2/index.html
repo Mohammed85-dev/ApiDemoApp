@@ -2,29 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
 
 <form
-            class="area"
-            id="upload"
-            method="put"
-            enctype="multipart/form-data"
-    >
-        <label for="images">Choose images to upload</label>
+        class="area"
+        enctype="multipart/form-data"
+        id="upload"
+        method="put"
+>
+    <label for="images">Choose images to upload</label>
 
-        <input
-                type="file"
-                id="images"
-                name="image"
-                accept=".jpg, .jpeg, .png"
-        />
+    <input
+            accept=".jpg, .jpeg, .png"
+            id="images"
+            name="image"
+            type="file"
+    />
 
-        <button id="submit" type="submit">Upload</button>
-    </form>
+    <button id="submit" type="submit">Upload</button>
+</form>
 
 <script src="script.js"></script>
 </body>

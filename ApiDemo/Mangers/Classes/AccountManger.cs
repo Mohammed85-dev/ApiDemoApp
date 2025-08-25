@@ -42,7 +42,7 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
             Password = signUpData.Password,
         };
 
-        usersDB.AddUser(new User { Uuid = account.UUID, Username = account.UserUsername, });
+        usersDB.AddUser(new User { UnqiueUserId = account.UUID, Username = account.UserUsername, });
         accountDB.AddAccount(account);
 
         return new TokenRequestResponse {
@@ -53,8 +53,8 @@ public class AccountManger(IAccountDataDB accountDB, IUsersDataDB usersDB, IToke
     }
 
     public TokenRequestResponse LoginUser(Login login) {
-        Account? accountData =
-            (login.UsingUsername)
+        var accountData =
+            login.UsingUsername
                 ? accountDB.GetAccountData(login.Username!)
                 : accountDB.GetAccountDataEmail(login.Email!);
 

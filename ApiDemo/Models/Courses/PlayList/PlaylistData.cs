@@ -15,6 +15,5 @@ public class PlaylistData {
     [JsonPropertyName("createdOn")] public DateTime Created { get; set; }
     [JsonPropertyName("lastedUpdateOn")] public DateTime LastUpdateDate { get; set; } = DateTime.Now;
     [JsonPropertyName("Courses")] public Dictionary<int, Guid> Courses { get; set; } = new();
-    //todo add default image
-    [JsonIgnore] public byte[] Picture { get; set; } = null!;
+    [JsonIgnore] public Guid PictureFileId { get; set; } = Guid.Empty;
 }

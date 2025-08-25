@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Cassandra.Mapping;
 using Cassandra.Mapping.Attributes;
 

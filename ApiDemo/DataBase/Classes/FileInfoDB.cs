@@ -1,8 +1,6 @@
 using ApiDemo.DataBase.Interfaces;
 using ApiDemo.TypesData;
 using Cassandra.Data.Linq;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using ISession = Cassandra.ISession;
 
 namespace ApiDemo.DataBase.Classes;
@@ -29,8 +27,8 @@ public class FileInfoDB : IFileInfoDB {
 
     public void AddRequiredPermission(Guid fileId, string permissionName) {
         _dbFileInfos.Where(f => f.UniqueFileId == fileId)
-            .Select(f => new DBFileInfo() {
-                UniqueRequiredPermission = new List<string> { permissionName },
+            .Select(f => new DBFileInfo {
+                UniqueRequiredPermission = new List<string> { permissionName, },
             }).Execute().FirstOrDefault();
     }
 
@@ -39,7 +37,7 @@ public class FileInfoDB : IFileInfoDB {
     }
 
     public string GetCompleteFilePath(Guid fileId) {
-        DBFileInfo dbFileInfo = _dbFileInfos.First(file => file.UniqueFileId == fileId).Execute();
+        var dbFileInfo = _dbFileInfos.First(file => file.UniqueFileId == fileId).Execute();
         return Path.Combine(dbFileInfo.Path, dbFileInfo.FileName);
     }
 

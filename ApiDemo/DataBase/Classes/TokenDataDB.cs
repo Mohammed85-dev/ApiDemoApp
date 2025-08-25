@@ -42,7 +42,7 @@ public class TokenDataDB : ITokenDataDB {
 
         var batch = _tokens.GetSession().CreateBatch();
 
-        for (int i = 0; i < tokens.Length; i++) {
+        for (var i = 0; i < tokens.Length; i++) {
             if (i == tokens.Length)
                 throw new UnsupportedContentTypeException("WTF this is impossible unlesss some dark magic is happening");
             var a = accessToken[i];
@@ -53,19 +53,19 @@ public class TokenDataDB : ITokenDataDB {
 
             // Conditionally update fields (only if not default)
             if (t.OwnerUUID != Guid.Empty)
-                query = query.Select(x => new TokenData { OwnerUUID = t.OwnerUUID });
+                query = query.Select(x => new TokenData { OwnerUUID = t.OwnerUUID, });
 
             if (!string.IsNullOrEmpty(t.RefreshToken))
-                query = query.Select(x => new TokenData { RefreshToken = t.RefreshToken });
+                query = query.Select(x => new TokenData { RefreshToken = t.RefreshToken, });
 
             if (t.ExpiresAT != DateTime.MaxValue)
-                query = query.Select(x => new TokenData { ExpiresAT = t.ExpiresAT });
+                query = query.Select(x => new TokenData { ExpiresAT = t.ExpiresAT, });
 
             if (t.customPermissions.Count > 0)
-                query = query.Select(x => new TokenData { customPermissions = t.customPermissions });
+                query = query.Select(x => new TokenData { customPermissions = t.customPermissions, });
 
             if (t.PresetPermissions.Count > 0)
-                query = query.Select(x => new TokenData { PresetPermissions = t.PresetPermissions });
+                query = query.Select(x => new TokenData { PresetPermissions = t.PresetPermissions, });
 
             // Only append if we actually set something to update
             if (query != null)

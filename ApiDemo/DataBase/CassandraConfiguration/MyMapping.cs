@@ -1,13 +1,12 @@
 using ApiDemo.Models.AccountModels;
-using Cassandra;
 using Cassandra.Mapping;
 
 namespace ApiDemo.DataBase.CassandraConfiguration;
 
-public class MyMapping : Mappings{
+public class MyMapping : Mappings {
     private const string keyspace = "my_keyspace";
 
-    public MyMapping() { 
+    public MyMapping() {
         For<Account>()
             .KeyspaceName(keyspace)
             .TableName("accounts")
